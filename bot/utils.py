@@ -15,6 +15,13 @@ class Access:
     def _private(message: Message):
         return message.chat.type == 'private'
 
+    @staticmethod
+    def contacts(message: Message):
+        if not message.text:
+            return False
+        return Access._private(message) and Access._auth(message) \
+               and strings.get_string('main_menu.contacts') in message.text
+
 
 class Navigation:
     @staticmethod
