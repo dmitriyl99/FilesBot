@@ -23,6 +23,14 @@ class File(models.Model):
         return os.path.splitext(self.get_full_file_name())[0]
 
 
+class BotUser(models.Model):
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    username = models.CharField(max_length=200)
+
+    favorites_files = models.ManyToManyField(File)
+
+
 class Settings(models.Model):
     share_text = models.TextField(max_length=500, blank=True, null=True)
     share_file = models.CharField(max_length=200, blank=True, null=True)
