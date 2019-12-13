@@ -25,8 +25,8 @@ class File(models.Model):
 
 class BotUser(models.Model):
     first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
-    username = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200, null=True, blank=True)
+    username = models.CharField(max_length=200, null=True, blank=True)
 
     favorites_files = models.ManyToManyField(File)
 
