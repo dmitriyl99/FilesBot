@@ -5,7 +5,7 @@ Handlers for start bot
 from . import telegram_bot
 from core import users, settings
 from telebot.types import Message
-from resources import strings, keyboards
+from resources import strings
 from .utils import Navigation
 
 
