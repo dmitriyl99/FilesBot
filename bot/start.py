@@ -6,6 +6,7 @@ from . import telegram_bot
 from core import users, settings
 from telebot.types import Message
 from resources import strings, keyboards
+from .utils import Navigation
 
 
 @telegram_bot.message_handler(commands=['start'])
@@ -22,6 +23,5 @@ def start_handler(message: Message):
     if not bot_settings:
         telegram_bot.send_message(chat_id, strings.get_string('main_menu.no_start_message'))
         return
-    main_menu_keyboard = keyboards.get_keyboard('main_menu')
     start_message = bot_settings.start_message_text
-    telegram_bot.send_message(chat_id, start_message, reply_markup=main_menu_keyboard)
+    Navigation.to_main_menu(chat_id, start_message)
