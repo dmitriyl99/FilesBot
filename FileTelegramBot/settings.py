@@ -118,3 +118,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Telegram Bot settings
+API_TOKEN = os.environ.get('API_TOKEN')
+WEBHOOK_HOST = os.environ.get('WEBHOOK_HOST')
+WEBHOOK_URL_BASE = 'https://%s/bot' % WEBHOOK_HOST
+WEBHOOK_URL_PATH = '%s/' % API_TOKEN
