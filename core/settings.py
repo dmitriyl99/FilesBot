@@ -3,9 +3,10 @@ Bot settings manager
 """
 
 from filebot.models import Settings
+from typing import Optional
 
 
-def get_settings():
+def get_settings() -> Optional[Settings]:
     """
     Get bot settings
     """
