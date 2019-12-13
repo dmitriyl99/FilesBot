@@ -5,5 +5,6 @@
     "main_menu.favorites": "Избранное",
     "main_menu.contacts": "Контакты",
     "main_menu.share": "Поделиться",
-    "contacts.no_contacts": "Контакты ещё не указаны"
+    "contacts.no_contacts": "Контакты ещё не указаны",
+    "share.no_share_text": "Информация не указана"
 }

@@ -22,6 +22,12 @@ class Access:
         return Access._private(message) and Access._auth(message) \
                and strings.get_string('main_menu.contacts') in message.text
 
+    @staticmethod
+    def share(message: Message):
+        if not message.text:
+            return False
+        return Access._private(message) and Access._auth(message) and strings.get_string('main_menu.share') in message.text
+
 
 class Navigation:
     @staticmethod
