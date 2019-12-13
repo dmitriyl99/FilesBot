@@ -33,8 +33,5 @@ class BotUser(models.Model):
 
 class Settings(models.Model):
     share_text = models.TextField(max_length=500, blank=True, null=True)
-    share_file = models.CharField(max_length=200, blank=True, null=True)
     contacts_text = models.TextField(max_length=500, blank=True, null=True)
-    contacts_file = models.CharField(max_length=200, blank=True, null=True)
     start_message_text = models.TextField(max_length=500, blank=True, null=True)
-    start_message_file = models.CharField(max_length=200, blank=True, null=True)

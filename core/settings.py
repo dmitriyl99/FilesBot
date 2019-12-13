@@ -13,9 +13,7 @@ def get_settings() -> Optional[Settings]:
     return Settings.objects.first()
 
 
-def set_settings(share_text: str, share_file,
-                 contacts_text: str, contacts_file,
-                 start_message_text: str, start_message_file):
+def set_settings(share_text: str, contacts_text: str, start_message_text: str):
     """
     Edit bot settings
     """
