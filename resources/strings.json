@@ -11,9 +11,11 @@
     "share.no_share_text": "Информация не указана",
 
     "catalog.categories.select": "Выберите категорию",
-    "catalog.add_favorite": "В избранное ❤",
-    "catalog.add_favorite.success": "Файл добавлен в избранное!",
-    "catalog.add_favorite.already": "Файл уже в избранном",
+    "catalog.add_favorite.add": "В избранное ❤",
+    "catalog.add_favorite.added": "Файл добавлен в избранное!",
+    "catalog.add_favorite.removed": "Файл удалён из избранного!",
+    "catalog.add_favorite.error": "Ошибка!",
+    "catalog.add_favorite.not_allowed": "У вас нет доступа!",
 
     "back": "Назад \uD83D\uDD19"
 }
