@@ -62,5 +62,7 @@ class Helpers:
             else:
                 chat_action = 'sending_document'
                 method = telegram_bot.send_document
+            file_keyboard = keyboards.from_file_to_inline_keyboard_favorite(file)
             telegram_bot.send_chat_action(chat_id, chat_action)
-            method(chat_id, open(file.file_path, 'rb'), caption=file.caption)
+            method(chat_id, open(file.file_path, 'rb'), caption=file.caption,
+                   reply_markup=file_keyboard, parse_mode='HTML')
