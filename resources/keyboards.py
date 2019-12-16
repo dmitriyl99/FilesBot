@@ -4,6 +4,8 @@ Keyboards manager
 
 from telebot.types import ReplyKeyboardMarkup, ReplyKeyboardRemove
 from . import strings
+from typing import List
+from filebot.models import Category
 
 
 def _create_keyboard(row_width=3) -> ReplyKeyboardMarkup:
@@ -26,3 +28,10 @@ def get_keyboard(key: str) -> ReplyKeyboardMarkup:
         return main_menu_keyboard
     else:
         return _default_value
+
+
+def from_categories_list_to_keyboard(categories: List[Category]) -> ReplyKeyboardMarkup:
+    keyboard = _create_keyboard(row_width=2)
+    keyboard.add(*[category.name for category in categories])
+    keyboard.add(strings.get_string('back'))
+    return keyboard
