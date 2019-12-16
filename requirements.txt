@@ -2,7 +2,8 @@ asgiref==3.2.3
 certifi==2019.11.28
 chardet==3.0.4
 Django==3.0
-django-treebeard==4.3
+django-js-asset==1.2.2
+django-mptt==0.10.0
 idna==2.8
 pyTelegramBotAPI==3.6.6
 python-dotenv==0.10.3
