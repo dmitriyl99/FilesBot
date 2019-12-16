@@ -23,6 +23,9 @@ class File(models.Model):
     def get_file_name(self):
         return os.path.splitext(self.get_full_file_name())[0]
 
+    def get_file_extension(self):
+        return os.path.splitext(self.get_full_file_name())[1]
+
 
 class BotUser(models.Model):
     first_name = models.CharField(max_length=200)
