@@ -2,10 +2,10 @@
 Keyboards manager
 """
 
-from telebot.types import ReplyKeyboardMarkup, ReplyKeyboardRemove
+from telebot.types import ReplyKeyboardMarkup, ReplyKeyboardRemove, InlineKeyboardMarkup, InlineKeyboardButton
 from . import strings
 from typing import List
-from filebot.models import Category
+from filebot.models import Category, File
 
 
 def _create_keyboard(row_width=3) -> ReplyKeyboardMarkup:
@@ -34,4 +34,11 @@ def from_categories_list_to_keyboard(categories: List[Category]) -> ReplyKeyboar
     keyboard = _create_keyboard(row_width=2)
     keyboard.add(*[category.name for category in categories])
     keyboard.add(strings.get_string('back'))
+    return keyboard
+
+
+def from_file_to_inline_keyboard_favorite(file: File) -> InlineKeyboardMarkup:
+    keyboard = InlineKeyboardMarkup(row_width=1)
+    favorite_button = InlineKeyboardButton(strings.get_string('catalog.add_favorite'), callback_data=str(file.id))
+    keyboard.add(favorite_button)
     return keyboard
