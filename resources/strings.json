@@ -11,6 +11,9 @@
     "share.no_share_text": "Информация не указана",
 
     "catalog.categories.select": "Выберите категорию",
+    "catalog.add_favorite": "В избранное ❤",
+    "catalog.add_favorite.success": "Файл добавлен в избранное!",
+    "catalog.add_favorite.already": "Файл уже в избранном",
 
     "back": "Назад \uD83D\uDD19"
 }
