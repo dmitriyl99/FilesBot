@@ -2,7 +2,7 @@ from . import telegram_bot
 from telebot.types import Message
 from core import users
 from resources import strings, keyboards
-from filebot.models import File
+from filebot.models import File, BotUser
 import os
 
 
@@ -50,7 +50,7 @@ class Navigation:
 
 class Helpers:
     @staticmethod
-    def send_file(chat_id: int, file: File):
+    def send_file(chat_id: int, file: File, user: BotUser):
         if os.path.exists(file.file_path):
             extension = file.get_file_extension()
             if extension in ['jpg', 'png']:
@@ -62,7 +62,8 @@ class Helpers:
             else:
                 chat_action = 'sending_document'
                 method = telegram_bot.send_document
-            file_keyboard = keyboards.from_file_to_inline_keyboard_favorite(file)
+            file_keyboard = keyboards.from_file_to_inline_keyboard_favorite(file,
+                                                                            remove=user.favorite_file_exists(file))
             telegram_bot.send_chat_action(chat_id, chat_action)
             method(chat_id, open(file.file_path, 'rb'), caption=file.caption,
                    reply_markup=file_keyboard, parse_mode='HTML')
