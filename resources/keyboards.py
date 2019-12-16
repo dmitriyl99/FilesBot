@@ -37,8 +37,11 @@ def from_categories_list_to_keyboard(categories: List[Category]) -> ReplyKeyboar
     return keyboard
 
 
-def from_file_to_inline_keyboard_favorite(file: File) -> InlineKeyboardMarkup:
+def from_file_to_inline_keyboard_favorite(file: File, remove=False) -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardMarkup(row_width=1)
-    favorite_button = InlineKeyboardButton(strings.get_string('catalog.add_favorite'), callback_data=str(file.id))
+    if not remove:
+        favorite_button = InlineKeyboardButton(strings.get_string('catalog.add_favorite.add'), callback_data=str(file.id))
+    else:
+        favorite_button = InlineKeyboardButton(strings.get_string('catalog.add_favorite.remove'), callback_data=str(file.id))
     keyboard.add(favorite_button)
     return keyboard
