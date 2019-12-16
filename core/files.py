@@ -13,3 +13,10 @@ def get_category_by_name(name: str, parent_category: Category = None) -> Optiona
         return parent_category.get_children().filter(name=name)
 
 
+def get_file_by_id(file_id: int) -> Optional[File]:
+    try:
+        return File.objects.get(pk=file_id)
+    except File.DoesNotExist:
+        return None
+
+
