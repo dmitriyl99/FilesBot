@@ -35,6 +35,9 @@ class BotUser(models.Model):
 
     favorites_files = models.ManyToManyField(File)
 
+    def favorite_file_exists(self, file: File):
+        return file in self.favorites_files.all()
+
 
 class Settings(models.Model):
     share_text = models.TextField(max_length=500, blank=True, null=True)
