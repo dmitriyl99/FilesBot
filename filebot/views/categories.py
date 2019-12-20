@@ -1,5 +1,5 @@
 from django.views.generic import ListView
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, FormView
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -19,6 +19,7 @@ class CategoryListView(LoginRequiredMixin, ListView):
 
 class ShowCategoryChildrenView(LoginRequiredMixin, ListView, SingleObjectMixin):
     template_name = 'admin/catalog/categories/show.html'
+    context_object_name = 'children'
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object(queryset=Category.objects.all())
@@ -49,16 +50,17 @@ class ShowCategoryFilesView(LoginRequiredMixin, ListView, SingleObjectMixin):
         return self.object.file_set.all()
 
 
-class CreateCategoryView(LoginRequiredMixin, CreateView):
-    model = Category
-    fields = ['name', 'parent']
-    template_name = 'admin/catalog/categories/create.html'
+class CreateCategoryView(LoginRequiredMixin, FormView):
     form_class = CategoryForm
+    template_name = 'admin/catalog/categories/create.html'
     context_object_name = 'form'
+    success_url = reverse_lazy('admin-catalog')
 
-    def form_valid(self, form):
+    def form_valid(self, form: CategoryForm):
+        parent = form.cleaned_data['parent']
+        category = Category.objects.create(name=form.cleaned_data['name'], parent=parent)
         result = super().form_valid(form)
-        messages.success(self.request, "Категория %s добавлена!" % form.cleaned_data['name'])
+        messages.success(self.request, "Категория %s добавлена!" % category.name)
         return result
 
 
