@@ -8,7 +8,10 @@ class CategoryForm(forms.Form):
     parent = TreeNodeChoiceField(queryset=Category.objects.all(), required=False)
 
 
-class FilesForm(forms.ModelForm):
-    class Meta:
-        model = File
-        fields = ['hide_file_name', 'show_full_name', 'caption', 'category']
+class FileForm(forms.Form):
+    name = forms.CharField(max_length=200, required=False)
+    caption = forms.CharField(max_length=500, required=False)
+    file = forms.FileField()
+    hide_file_name = forms.BooleanField(required=False)
+    show_full_file_name = forms.BooleanField(required=False)
+    category = TreeNodeChoiceField(queryset=Category.objects.all())
