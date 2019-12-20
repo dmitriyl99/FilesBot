@@ -36,6 +36,7 @@ class ShowCategoryChildrenView(LoginRequiredMixin, ListView, SingleObjectMixin):
 
 class ShowCategoryFilesView(LoginRequiredMixin, ListView, SingleObjectMixin):
     template_name = 'admin/catalog/categories/files.html'
+    context_object_name = 'files'
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object(queryset=Category.objects.all())
