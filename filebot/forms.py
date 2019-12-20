@@ -5,7 +5,7 @@ from filebot.models import Category, File
 
 class CategoryForm(forms.Form):
     name = forms.CharField(max_length=200)
-    parent = TreeNodeChoiceField(queryset=Category.objects.all())
+    parent = TreeNodeChoiceField(queryset=Category.objects.all(), required=False)
 
 
 class FilesForm(forms.ModelForm):
