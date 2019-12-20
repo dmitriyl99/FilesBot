@@ -9,11 +9,7 @@ from resources import strings, keyboards
 def catalog_handler(message: Message):
     user_id = message.from_user.id
 
-    root_categories = files.get_parent_categories()
-    select_message = strings.get_string('catalog.categories.select')
-    categories_keyboard = keyboards.from_categories_list_to_keyboard(root_categories)
-    telegram_bot.send_message(user_id, select_message, reply_markup=categories_keyboard)
-    telegram_bot.register_next_step_handler_by_chat_id(user_id, category_handler, current_category=None)
+    Navigation.to_catalog(user_id)
 
 
 def category_handler(message: Message, *args, **kwargs):
