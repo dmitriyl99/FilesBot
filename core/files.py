@@ -10,7 +10,7 @@ def get_category_by_name(name: str, parent_category: Category = None) -> Optiona
     if not parent_category:
         return Category.objects.filter(name=name, level=0).first()
     else:
-        return parent_category.get_children().filter(name=name)
+        return parent_category.get_children().filter(name=name).first()
 
 
 def get_file_by_id(file_id: int) -> Optional[File]:
