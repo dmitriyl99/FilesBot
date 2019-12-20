@@ -1,5 +1,7 @@
 from django.db import models
 from mptt.models import MPTTModel, TreeForeignKey
+from django.core.files.storage import FileSystemStorage
+from FileTelegramBot.settings import BASE_DIR
 import os
 
 
@@ -45,6 +47,38 @@ class File(models.Model):
 
     def get_file_extension(self):
         return os.path.splitext(self.get_full_file_name())[1]
+
+    @property
+    def file_name(self):
+        return self.get_file_name()
+
+    @property
+    def full_file_name(self):
+        return self.get_full_file_name()
+
+    def remove_file(self):
+        os.remove(self.file_path)
+
+    def upload_file(self, file):
+        self.remove_file()
+        file_storage = FileSystemStorage()
+        filename = file_storage.save(os.path.join(self.category.name, file.name), file)
+        uploaded_file_url = os.path.join(BASE_DIR, file_storage.path(filename))
+        self.file_path = uploaded_file_url
+        self.save()
+
+    def rename_file(self, new_name):
+        file_storage = FileSystemStorage()
+        extension = self.get_file_extension()
+        if file_storage.exists(os.path.join(self.category.name, new_name + extension)):
+            return False
+        old_file_name = self.file_name
+        old_path = self.file_path
+        new_path = os.path.join(file_storage.location, self.category.name, new_name + extension)
+        os.rename(old_path, new_path)
+        self.file_path = new_path
+        self.save()
+        return old_file_name
 
 
 class BotUser(models.Model):
