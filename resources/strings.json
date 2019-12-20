@@ -12,6 +12,7 @@
 
     "catalog.categories.select": "Выберите категорию",
     "catalog.add_favorite.add": "В избранное ❤",
+    "catalog.add_favorite.remove": "Удалить из избранного",
     "catalog.add_favorite.added": "Файл добавлен в избранное!",
     "catalog.add_favorite.removed": "Файл удалён из избранного!",
     "catalog.add_favorite.error": "Ошибка!",
