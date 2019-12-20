@@ -91,7 +91,7 @@ class UpdateCategoryView(LoginRequiredMixin, FormView, SingleObjectMixin):
 
 class DeleteCategoryView(LoginRequiredMixin, DeleteView):
     model = Category
-    success_url = reverse_lazy('admin_categories')
+    success_url = reverse_lazy('admin-catalog')
 
     def delete(self, request, *args, **kwargs):
         category_name = self.get_object().name
