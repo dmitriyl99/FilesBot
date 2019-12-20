@@ -4,7 +4,7 @@ from core import users, files
 from resources import strings, keyboards
 
 
-@telegram_bot.inline_handler(func=lambda m: True)
+@telegram_bot.callback_query_handler(func=lambda m: True)
 def favorite_query_handler(query: CallbackQuery):
     user_id = query.from_user.id
     user = users.get_user_by_telegram_id(user_id)
@@ -25,7 +25,7 @@ def favorite_query_handler(query: CallbackQuery):
     if not file:
         error('catalog.add_favorite.error')
         return
-    if file in user.favorites_files:
+    if file in user.favorites_files.all():
         user.favorites_files.remove(file)
         success_message = strings.get_string('catalog.add_favorite.removed')
         new_keyboard = keyboards.from_file_to_inline_keyboard_favorite(file)
@@ -34,4 +34,4 @@ def favorite_query_handler(query: CallbackQuery):
         success_message = strings.get_string('catalog.add_favorite.added')
         new_keyboard = keyboards.from_file_to_inline_keyboard_favorite(file, remove=True)
     telegram_bot.answer_callback_query(query.id, success_message)
-    telegram_bot.edit_message_reply_markup(user_id, query.message.id, query.inline_message_id, new_keyboard)
+    telegram_bot.edit_message_reply_markup(user_id, query.message.message_id, query.inline_message_id, new_keyboard)
