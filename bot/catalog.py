@@ -25,14 +25,19 @@ def category_handler(message: Message, *args, **kwargs):
         error()
         return
     if strings.get_string('back') in message.text:
-        if current_category:
+        if not current_category:
+            Navigation.to_main_menu(user_id)
+            return
+        if current_category.parent:
             catalog_message = strings.get_string('catalog.categories.select')
-            categories_keyboard = keyboards.from_categories_list_to_keyboard(current_category.get_siblings())
+            categories_keyboard = keyboards.from_categories_list_to_keyboard(current_category.parent.get_children())
             telegram_bot.send_message(user_id, catalog_message, reply_markup=categories_keyboard)
             telegram_bot.register_next_step_handler_by_chat_id(user_id, category_handler,
                                                                current_category=current_category.parent)
+            return
         else:
-            Navigation.to_main_menu(user_id)
+            Navigation.to_catalog(user_id)
+            return
     category = files.get_category_by_name(message.text, current_category)
     if not category:
         error()
@@ -45,4 +50,5 @@ def category_handler(message: Message, *args, **kwargs):
         select_message = strings.get_string('catalog.categories.select')
         categories_keyboard = keyboards.from_categories_list_to_keyboard(categories)
         telegram_bot.send_message(user_id, select_message, reply_markup=categories_keyboard)
-    telegram_bot.register_next_step_handler_by_chat_id(user_id, category_handler, current_category=category)
+    new_current_category = category if category.has_children else category.parent
+    telegram_bot.register_next_step_handler_by_chat_id(user_id, category_handler, current_category=new_current_category)
