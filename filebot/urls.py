@@ -13,6 +13,7 @@ urlpatterns = [
     path('catalog/category/<int:pk>/remove', categories.DeleteCategoryView.as_view(), name='admin-catalog-category-remove'),
     path('catalog/files/add', files.CreateFileView.as_view(), name='admin-catalog-files-add'),
     path('catalog/files/<int:pk>/edit', files.UpdateFileView.as_view(), name='admin-catalog-files-edit'),
+    path('catalog/files/<int:pk>/remove', files.DeleteFileView.as_view(), name='admin-catalog-files-remove'),
 
     path('init/', bot.BotInitializeView.as_view()),
     path(WEBHOOK_URL_PATH, bot.BotUpdatesRecieverView.as_view())

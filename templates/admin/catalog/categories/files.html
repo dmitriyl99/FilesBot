@@ -30,7 +30,7 @@
                                     <td class="text-center">{{ file.file_name }}</td>
                                     <td class="text-center d-flex justify-content-center align-items-center">
                                         <a href="{% url 'admin-catalog-files-edit' pk=file.id %}" class="btn btn-sm btn-alt-info mr-10" data-toggle="tooltip" title="Редактировать"><i class="si si-pencil"></i></a>
-                                        <form action="{% url 'admin-catalog-category-remove' pk=category.id %}" method="post">
+                                        <form action="{% url 'admin-catalog-files-remove' pk=file.id %}" method="post">
                                             {% csrf_token %}
                                             <button type="submit" class="btn btn-sm btn-alt-danger" onclick="return confirm('Вы уверены?')" data-toggle="tooltip" title="Удалить"><i class="si si-trash"></i></>
                                         </form>
