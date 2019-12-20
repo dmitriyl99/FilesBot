@@ -11,7 +11,7 @@
         <div class="block-header block-header-default">
             <h3 class="block-title">Каталог</h3>
             <div class="block-options"><a href="{% url 'admin-catalog-category-add' %}" class="btn-block-option" data-toggle="tooltip" title="Добавить категорию"><i class="si si-plus mr-10"></i>Категория</a><a
-                    href="" class="btn-block-option" data-toggle="tooltip" title="Добавить файл"><i class="si si-plus mr-10"></i>Файл</a></div>
+                    href="{% url 'admin-catalog-files-add' %}" class="btn-block-option" data-toggle="tooltip" title="Добавить файл"><i class="si si-plus mr-10"></i>Файл</a></div>
         </div>
         <div class="block-content block-content-full">
             {% if categories %}

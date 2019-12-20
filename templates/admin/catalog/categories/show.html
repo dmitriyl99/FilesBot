@@ -12,7 +12,7 @@
         <div class="block-header block-header-default">
             <h3 class="block-title"><a href="{% if category.parent %}{% url 'admin-catalog-categories-children' pk=category.parent.id %}{% else %}{% url 'admin-catalog' %}{% endif %}" class="link-effect mr-10"><i class="fa fa-arrow-circle-o-left mr-5"></i>Назад</a>Каталог</h3>
             <div class="block-options"><a href="{% url 'admin-catalog-category-add' %}" class="btn-block-option" data-toggle="tooltip" title="Добавить категорию"><i class="si si-plus mr-10"></i>Категория</a><a
-                    href="" class="btn-block-option" data-toggle="tooltip" title="Добавить файл"><i class="si si-plus mr-10"></i>Файл</a></div>
+                    href="{% url 'admin-catalog-files-add' %}" class="btn-block-option" data-toggle="tooltip" title="Добавить файл"><i class="si si-plus mr-10"></i>Файл</a></div>
         </div>
         <div class="block-content block-content-full">
             {% if children %}
