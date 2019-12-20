@@ -64,16 +64,28 @@ class CreateCategoryView(LoginRequiredMixin, FormView):
         return result
 
 
-class UpdateCategoryView(LoginRequiredMixin, UpdateView):
-    model = Category
-    fields = ['name', 'parent']
+class UpdateCategoryView(LoginRequiredMixin, FormView, SingleObjectMixin):
     template_name = 'admin/catalog/categories/edit.html'
     form_class = CategoryForm
     context_object_name = 'form'
+    success_url = reverse_lazy('admin-catalog')
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Category.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Category.objects.all())
+        return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
+        category = self.object
+        parent = form.cleaned_data['parent']
+        category.name = form.cleaned_data['name']
+        category.move_to(parent)
+        category.save()
         result = super().form_valid(form)
-        messages.success(self.request, "Категория %s изменена!" % form.cleaned_data['name'])
+        messages.success(self.request, "Категория %s изменена!" % category.name)
         return result
 
 
