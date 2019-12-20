@@ -5,7 +5,7 @@ from django.contrib import messages
 from filebot.models import File
 from FileTelegramBot.settings import BASE_DIR
 from filebot.forms import FileForm
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 import os
 
@@ -73,3 +73,18 @@ class UpdateFileView(LoginRequiredMixin, FormView, SingleObjectMixin):
         messages.success(self.request, 'Файл успешно отредактирован!')
         return super().form_valid(form)
 
+
+class DeleteFileView(LoginRequiredMixin, DeleteView):
+    model = File
+
+    def get_success_url(self):
+        return reverse('admin-catalog-categories-files', kwargs={'pk': self.category.id})
+
+    def delete(self, request, *args, **kwargs):
+        file = self.get_object()
+        file_name = file.file_name
+        self.category = file.category
+        file.remove_file()
+        result = super().delete(request, *args, **kwargs)
+        messages.success(request, "Файл %s удалён" % file_name)
+        return result
