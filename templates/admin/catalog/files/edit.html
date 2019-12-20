@@ -1,0 +1,96 @@
+{% extends 'layouts/app.html' %}
+{% block title %}{{ object.file_name }}{% endblock %}
+{% block breadcrumbs %}
+    <a href="{% url 'admin-catalog' %}" class="breadcrumb-item">Каталог</a>
+    <span class="breadcrumb-item active">{{ object.file_name }}</span>
+{% endblock %}
+{% block content %}
+    <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="block">
+            <div class="block-header block-header-default">
+                <h3 class="block-title">{{ object.full_file_name }}</h3>
+                <div class="block-options">
+                    <button type="submit" class="btn btn-sm btn-alt-primary"><i class="si si-check mr-5"></i>Сохранить</button>
+                </div>
+            </div>
+            <div class="block-content">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group {% if form.name.errors %}is-invalid{% endif %}">
+                            <div class="form-material form-material-primary floating">
+                                <input type="text" name="name" id="name" class="form-control" value="{{ file.file_name }}">
+                                <label for="name">Название файла</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group {% if form.file.errors %}is-invalid{% endif %}">
+                            <div class="form-material form-material-primary">
+                                <input type="file" name="file" id="{{ form.file.id_for_label }}" class="form-control">
+                                <label for="{{ form.file.id_for_label }}">Файл</label>
+                            </div>
+                            {% for error in form.file.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group {% if form.category.errors %}is-invalid{% endif %}">
+                            <div class="form-material form-material-primary">
+                                {{ form.category }}
+                                <label for="{{ form.category.id_for_label }}">Категория</label>
+                            </div>
+                            {% for error in form.category.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="form-group {% if form.caption.errors %}is-invalid{% endif %}">
+                            <div class="form-material form-material-primary floating">
+                                <textarea name="caption" id="{{ form.caption.id_for_label }}" cols="" rows="3"
+                                          class="form-control"></textarea>
+                                <label for="{{ form.caption.id_for_label }}">Описание</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <label class="css-control css-control-primary css-checkbox">
+                            <input type="checkbox" class="css-control-input" name="hide_file_name">
+                            <span class="css-control-indicator"></span>Заменить название файла на стандартное</label>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group">
+                            <label class="css-control css-control-primary css-checkbox">
+                                <input type="checkbox" name="show_full_file_name" id="show_full_file_name" class="css-control-input">
+                                <span class="css-control-indicator"></span>Показывать полное имя файла (с расширением)
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+{% block scripts %}
+    <script>
+        let categorySelect = $('select#id_category');
+        categorySelect.addClass('form-control');
+        let categoryId = "{{ object.category.id }}";
+        let selectOptions = categorySelect.children();
+        for (let i = 0; i < selectOptions.length; i++) {
+            let option = $(selectOptions[i]);
+            option.removeAttr('selected');
+                if (option.attr('value') === categoryId) {
+                    option.attr('selected', 'selected');
+                }
+        }
+    </script>
+{% endblock %}
