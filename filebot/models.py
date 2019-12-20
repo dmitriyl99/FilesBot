@@ -7,6 +7,25 @@ class Category(MPTTModel):
     name = models.CharField(max_length=200)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
+    @property
+    def has_children(self):
+        return self.get_children().count() > 0
+
+    @property
+    def children(self):
+        return self.get_children()
+
+    @property
+    def has_files(self):
+        return self.file_set.count() > 0
+
+    @property
+    def ancestors(self):
+        return self.get_ancestors()
+
+    def __str__(self):
+        return self.name
+
 
 class File(models.Model):
     file_path = models.CharField(max_length=200)
