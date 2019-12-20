@@ -59,8 +59,8 @@ class UpdateFileView(LoginRequiredMixin, FormView, SingleObjectMixin):
         file.show_full_name = form.cleaned_data['show_full_file_name']
         file.caption = form.cleaned_data['caption']
         file.save()
-        uploadedFile = form.cleaned_data['file']
-        if not uploadedFile and form.cleaned_data['name'] != file.file_name:
+        uploaded_file = form.cleaned_data['file']
+        if not uploaded_file and form.cleaned_data['name'] != file.file_name:
             result = file.rename_file(form.cleaned_data['name'])
             if result:
                 messages.success(self.request, 'Имя файла было изменено c %s на %s'
@@ -68,8 +68,8 @@ class UpdateFileView(LoginRequiredMixin, FormView, SingleObjectMixin):
             else:
                 form.add_error('name', 'Файл с таким именем уже есть в категории %s' % category.name)
                 return super().form_invalid(form)
-        if uploadedFile:
-            file.upload_file(uploadedFile)
+        if uploaded_file:
+            file.upload_file(uploaded_file)
         messages.success(self.request, 'Файл успешно отредактирован!')
         return super().form_valid(form)
 
