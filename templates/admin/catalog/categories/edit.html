@@ -1,0 +1,63 @@
+{% extends 'layouts/app.html' %}
+{% block title %}{{ object.name }}{% endblock %}
+{% block breadcrumbs %}
+    <a href="{% url 'admin-catalog' %}" class="breadcrumb-item">Каталог</a>
+    <span class="breadcrumb-item">{{ object.name }}</span>
+{% endblock %}
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="block">
+            <div class="block-header block-header-default">
+                <h3 class="block-title">{{ object.name }} <small>Редактировать</small> </h3>
+                <div class="block-options">
+                    <button type="submit" class="btn btn-alt-primary btn-sm"><i class="si si-check mr-5"></i>Сохранить</button>
+                </div>
+            </div>
+            <div class="block-content">
+                <div class="row">
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group {% if form.name.errors %}is-invalid{% endif %}">
+                            <div class="form-material form-material-primary floating">
+                                <input type="text" name="name" id="name" value="{{ object.name }}" class="form-control">
+                                <label for="{{ form.name.if_for_label }}">Название</label>
+                            </div>
+                            {% for error in form.name.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-6">
+                        <div class="form-group {% if form.parent.errors %}is-invalid{% endif %}">
+                            <div class="form-material form-material-primary">
+                                {{ form.parent }}
+                                <label for="{{ form.parent.id_for_label }}">Родительская категория</label>
+                            </div>
+                            {% for error in form.parent.errors %}
+                                <div class="invalid-feedback">{{ error }}</div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+{% block scripts %}
+    <script>
+        let parentSelect = $('select#id_parent');
+        parentSelect.addClass('form-control').removeAttr('required');
+        {% if object.parent %}
+            let parentId = "{{ object.parent.id }}";
+            let selectOptions = parentSelect.children();
+            console.log(selectOptions);
+            for (let i = 0; i < selectOptions.length; i++) {
+                let option = $(selectOptions[i]);
+                option.removeAttr('selected');
+                if (option.attr('value') === parentId) {
+                    option.attr('selected', 'selected');
+                }
+            }
+        {% endif %}
+    </script>
+{% endblock %}

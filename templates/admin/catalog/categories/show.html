@@ -1,0 +1,67 @@
+{% extends 'layouts/app.html' %}
+{% block title %}{{ category.name }}{% endblock %}
+{% block breadcrumbs %}
+    <a href="{% url 'admin-catalog' %}" class="breadcrumb-item">Каталог</a>
+    {% for ancestor in category.ancestors %}
+        <a href="{% url 'admin-catalog-categories-children' pk=ancestor.id %}" class="breadcrumb-item">{{ ancestor.name }}</a>
+    {% endfor %}
+    <span class="breadcrumb-item active">{{ category.name }}</span>
+{% endblock %}
+{% block content %}
+    <div class="block">
+        <div class="block-header block-header-default">
+            <h3 class="block-title"><a href="{% if category.parent %}{% url 'admin-catalog-categories-children' pk=category.parent.id %}{% else %}{% url 'admin-catalog' %}{% endif %}" class="link-effect mr-10"><i class="fa fa-arrow-circle-o-left mr-5"></i>Назад</a>Каталог</h3>
+            <div class="block-options"><a href="{% url 'admin-catalog-category-add' %}" class="btn-block-option" data-toggle="tooltip" title="Добавить категорию"><i class="si si-plus mr-10"></i>Категория</a><a
+                    href="" class="btn-block-option" data-toggle="tooltip" title="Добавить файл"><i class="si si-plus mr-10"></i>Файл</a></div>
+        </div>
+        <div class="block-content block-content-full">
+            {% if children %}
+                <div class="table-responsive">
+                    <table class="table table-vcenter">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Название</th>
+                                <th class="text-center">Дочерние категории</th>
+                                <th class="text-center">Файлы</th>
+                                <th class="text-center">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in children %}
+                                <tr>
+                                    <td class="text-center">{{ category.name }}</td>
+                                    <td class="text-center">
+                                        {% if category.has_children %}
+                                            <a href="{% url 'admin-catalog-categories-children' pk=category.id %}" class="link-effect">Перейти</a>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        {% if category.has_files > 0 %}
+                                            <a href="{% url 'admin-catalog-categories-files' pk=category.id %}" class="link-effect">Перейти</a>
+                                        {% else %}
+                                            -
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center d-flex justify-content-center align-items-center">
+                                        <a href="{% url 'admin-catalog-category-edit' pk=category.id %}" class="btn btn-sm btn-alt-info mr-10" data-toggle="tooltip" title="Редактировать"><i class="si si-pencil"></i></a>
+                                        <form action="{% url 'admin-catalog-category-remove' pk=category.id %}" method="post">
+                                            {% csrf_token %}
+                                            <button type="submit" class="btn btn-sm btn-alt-danger" onclick="return confirm('Вы уверены?')" data-toggle="tooltip" title="Удалить"><i class="si si-trash"></i></>
+                                        </form>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="py-30 text-center">
+                    <i class="si si-ghost text-primary display-3"></i>
+                    <p class="mt-20 font-size-h5">Ещё нет ни одной категории</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
