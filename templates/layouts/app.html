@@ -20,7 +20,7 @@
     <title>{% block title %}{% endblock %} | FilesBot</title>
 </head>
 <body>
-    <div id="page-container" class="sidebar-o side-scroll {% if request.resolver_match.url_name == 'admin_home' %}page-header-glass page-header-inverse{% else %}page-header-modern{% endif %} main-content-boxed">
+    <div id="page-container" class="sidebar-o side-scroll {% if request.resolver_match.url_name == 'admin-home' %}page-header-glass page-header-inverse{% else %}page-header-modern{% endif %} main-content-boxed">
         <nav id="sidebar">
             <div id="sidebar-scroll">
                 <div id="sidebar-content">
@@ -44,7 +44,7 @@
 
                             <!-- Logo -->
                             <div class="content-header-item">
-                                <a class="link-effect font-w700" href="{% url "admin_home" %}">
+                                <a class="link-effect font-w700" href="{% url "admin-home" %}">
                                     <i class="si si-star text-primary"></i>
                                     <span class="font-size-xl text-dual-primary-dark">File</span><span class="font-size-xl text-primary">Bot</span>
                                 </a>
@@ -83,8 +83,8 @@
                     <!-- Side Navigation -->
                     <div class="content-side content-side-full">
                         <ul class="nav-main">
-                            <li><a href="{% url 'admin_catalog' %}"><i class="si si-list"></i>Каталог</a></li>
-                            <li><a href="{% url 'admin_settings' %}"><i class="si si-settings"></i>Настройки</a></li>
+                            <li><a href="{% url 'admin-catalog' %}"><i class="si si-list"></i>Каталог</a></li>
+                            <li><a href="{% url 'admin-settings' %}"><i class="si si-settings"></i>Настройки</a></li>
                         </ul>
                     </div>
                     <!-- END Side Navigation -->
@@ -136,7 +136,7 @@
         </header>
         <!-- Main Container -->
         <main id="main-container">
-            {% if request.resolver_match.url_name == 'admin_home' %}
+            {% if request.resolver_match.url_name == 'admin-home' %}
                 <!-- Page Content -->
                 <div class="bg-image" style="background-image: url('{% static 'assets/img/photo2@2x.jpg' %}')">
                     <div class="hero bg-primary-dark-op">
@@ -153,7 +153,7 @@
                 <!-- Page Content -->
                 <div class="content">
                     <nav class="breadcrumb bg-white push">
-                        <a class="breadcrumb-item" href="{% url "admin_home" %}">FileBot</a>
+                        <a class="breadcrumb-item" href="{% url "admin-home" %}">FileBot</a>
                         {% block breadcrumbs %} {% endblock %}
                     </nav>
                     {% if messages %}
