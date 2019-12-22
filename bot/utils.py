@@ -36,6 +36,12 @@ class Access:
             return False
         return Access._private(m) and Access._auth(m) and strings.get_string('main_menu.categories') in m.text
 
+    @staticmethod
+    def favorites(m: Message):
+        if not m.text:
+            return False
+        return Access._private(m) and Access._auth(m) and strings.get_string('main_menu.favorites') in m.text
+
 
 class Navigation:
     @staticmethod
@@ -59,7 +65,7 @@ class Navigation:
 
 class Helpers:
     @staticmethod
-    def send_file(chat_id: int, file: File, user: BotUser):
+    def send_file(chat_id: int, file: File, user: BotUser, favorites=False):
         if os.path.exists(file.file_path):
             extension = file.get_file_extension()
             if extension in ['jpg', 'png']:
@@ -72,7 +78,7 @@ class Helpers:
                 chat_action = 'upload_document'
                 method = telegram_bot.send_document
             file_keyboard = keyboards.from_file_to_inline_keyboard_favorite(file,
-                                                                            remove=user.favorite_file_exists(file))
+                                                                            remove=user.favorite_file_exists(file) if not favorites else True)
             telegram_bot.send_chat_action(chat_id, chat_action)
             method(chat_id, open(file.file_path, 'rb'), caption=file.caption,
                    reply_markup=file_keyboard, parse_mode='HTML')

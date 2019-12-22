@@ -1,7 +1,8 @@
 from . import telegram_bot
-from telebot.types import CallbackQuery
+from telebot.types import CallbackQuery, Message
 from core import users, files
 from resources import strings, keyboards
+from .utils import Access, Helpers
 
 
 @telegram_bot.callback_query_handler(func=lambda m: True)
@@ -35,3 +36,17 @@ def favorite_query_handler(query: CallbackQuery):
         new_keyboard = keyboards.from_file_to_inline_keyboard_favorite(file, remove=True)
     telegram_bot.answer_callback_query(query.id, success_message)
     telegram_bot.edit_message_reply_markup(user_id, query.message.message_id, query.inline_message_id, new_keyboard)
+
+
+@telegram_bot.message_handler(content_types=['text'], func=Access.favorites)
+def favorites_handler(message: Message):
+    user_id = message.from_user.id
+    user = users.get_user_by_telegram_id(user_id)
+
+    user_files = user.favorites_files.all()
+    if not user_files:
+        empty_message = strings.get_string('favorites.empty')
+        telegram_bot.send_message(user_id, empty_message)
+        return
+    for file in user_files:
+        Helpers.send_file(user_id, file, user, favorites=True)
