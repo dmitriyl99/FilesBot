@@ -18,5 +18,7 @@
     "catalog.add_favorite.error": "Ошибка!",
     "catalog.add_favorite.not_allowed": "У вас нет доступа!",
 
+    "favorites.empty": "Ваш список избранного пуст",
+
     "back": "Назад \uD83D\uDD19"
 }
