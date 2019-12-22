@@ -14,8 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls import include, url
 
 urlpatterns = [
     path(r'accounts/', include('django.contrib.auth.urls')),
     path('', include('filebot.urls'))
 ]
+
+if settings.DEBUG:
+   import debug_toolbar
+   urlpatterns += [
+       url(r'^__debug__/', include(debug_toolbar.urls)),
+   ]
