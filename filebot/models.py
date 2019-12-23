@@ -79,6 +79,7 @@ class File(models.Model):
         new_path = os.path.join(file_storage.location, self.category.name, new_name + extension)
         os.rename(old_path, new_path)
         self.file_path = new_path
+        self.name = new_name
         self.save()
         return old_file_name
 
