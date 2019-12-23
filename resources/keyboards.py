@@ -37,6 +37,13 @@ def from_categories_list_to_keyboard(categories: List[Category]) -> ReplyKeyboar
     return keyboard
 
 
+def from_files_list_to_keyboard(files: List[File]) -> ReplyKeyboardMarkup:
+    keyboard = _create_keyboard(row_width=3)
+    keyboard.add(*[file.name for file in files])
+    keyboard.add(strings.get_string('back'))
+    return keyboard
+
+
 def from_file_to_inline_keyboard_favorite(file: File, remove=False) -> InlineKeyboardMarkup:
     keyboard = InlineKeyboardMarkup(row_width=1)
     if not remove:
