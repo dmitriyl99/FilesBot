@@ -59,6 +59,10 @@ class File(models.Model):
     def full_file_name(self):
         return self.get_full_file_name()
 
+    @property
+    def extension(self):
+        return self.get_file_extension()
+
     def remove_file(self):
         os.remove(self.file_path)
 
