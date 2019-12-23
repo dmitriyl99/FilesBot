@@ -3,6 +3,7 @@ from telebot.types import Message
 from core import users, files
 from resources import strings, keyboards
 from filebot.models import File, BotUser
+from shutil import copyfile
 import os
 
 
@@ -66,19 +67,29 @@ class Navigation:
 class Helpers:
     @staticmethod
     def send_file(chat_id: int, file: File, user: BotUser, favorites=False):
-        if os.path.exists(file.file_path):
+        file_path = file.file_path
+        if file.hide_file_name or file.unprintable_file_name:
+            template_file_name = 'Файл' if file.hide_file_name else 'Цензура'
+            template_file_name += file.extension
+            template_file_path = os.path.join(os.path.dirname(file.file_path), template_file_name)
+            copyfile(file.file_path, template_file_path)
+            file_path = template_file_path
+        if os.path.exists(file_path):
             extension = file.get_file_extension()
-            if extension in ['jpg', 'png']:
+            if extension in ['.jpg', '.png']:
                 chat_action = 'upload_photo'
                 method = telegram_bot.send_photo
-            elif extension in ['mp3']:
+            elif extension in ['.mp3']:
                 chat_action = 'upload_audio'
                 method = telegram_bot.send_audio
             else:
                 chat_action = 'upload_document'
                 method = telegram_bot.send_document
             file_keyboard = keyboards.from_file_to_inline_keyboard_favorite(file,
-                                                                            remove=user.favorite_file_exists(file) if not favorites else True)
+                                                                            remove=user.favorite_file_exists(file)
+                                                                            if not favorites else True)
             telegram_bot.send_chat_action(chat_id, chat_action)
-            method(chat_id, open(file.file_path, 'rb'), caption=file.caption,
+            method(chat_id, open(file_path, 'rb'), caption=file.caption,
                    reply_markup=file_keyboard, parse_mode='HTML')
+            if file.hide_file_name or file.unprintable_file_name:
+                os.remove(file_path)
