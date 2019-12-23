@@ -14,4 +14,5 @@ class FileForm(forms.Form):
     file = forms.FileField(allow_empty_file=True, required=False)
     hide_file_name = forms.BooleanField(required=False)
     show_full_file_name = forms.BooleanField(required=False)
+    unprintable_file_name = forms.BooleanField(required=False)
     category = TreeNodeChoiceField(queryset=Category.objects.all())

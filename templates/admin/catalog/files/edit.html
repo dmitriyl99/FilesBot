@@ -69,8 +69,8 @@
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group">
                             <label class="css-control css-control-primary css-checkbox">
-                                <input type="checkbox" name="show_full_file_name" id="show_full_file_name" class="css-control-input">
-                                <span class="css-control-indicator"></span>Показывать полное имя файла (с расширением)
+                                <input type="checkbox" name="unprintable_file_name" id="{{ form.unprintable_file_name.id_for_label }}" class="css-control-input" {% if file.unprintable_file_name %} checked {% endif %}>
+                                <span class="css-control-indicator"></span>Нецензурное выражение (заменит имя файла на "цензура")
                             </label>
                         </div>
                     </div>
