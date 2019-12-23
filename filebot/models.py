@@ -32,6 +32,7 @@ class Category(MPTTModel):
 class File(models.Model):
     name = models.CharField(max_length=200, blank=True, null=True)
     file_path = models.CharField(max_length=200)
+    file_url = models.CharField(max_length=200, blank=True, null=True)
     is_user_file = models.BooleanField(default=False)
     hide_file_name = models.BooleanField(default=False)
     unprintable_file_name = models.BooleanField(default=False)
@@ -67,6 +68,7 @@ class File(models.Model):
         filename = file_storage.save(os.path.join(self.category.name, file.name), file)
         uploaded_file_url = os.path.join(BASE_DIR, file_storage.path(filename))
         self.file_path = uploaded_file_url
+        self.file_url = file_storage.url(filename)
         self.save()
 
     def rename_file(self, new_name):
