@@ -5,6 +5,22 @@ from core import files, users
 from resources import strings, keyboards
 
 
+def _go_back(user_id, current_category):
+    if not current_category:
+        Navigation.to_main_menu(user_id)
+        return
+    if current_category.parent:
+        catalog_message = strings.get_string('catalog.categories.select')
+        categories_keyboard = keyboards.from_categories_list_to_keyboard(current_category.parent.get_children())
+        telegram_bot.send_message(user_id, catalog_message, reply_markup=categories_keyboard)
+        telegram_bot.register_next_step_handler_by_chat_id(user_id, category_handler,
+                                                           current_category=current_category.parent)
+        return
+    else:
+        Navigation.to_catalog(user_id)
+        return
+
+
 @telegram_bot.message_handler(content_types=['text'], func=Access.catalog)
 def catalog_handler(message: Message):
     user_id = message.from_user.id
@@ -15,7 +31,6 @@ def catalog_handler(message: Message):
 def category_handler(message: Message, *args, **kwargs):
     user_id = message.from_user.id
     current_category = kwargs.get('current_category')
-    user = users.get_user_by_telegram_id(user_id)
 
     def error():
         telegram_bot.send_message(user_id, strings.get_string('catalog.categories.select'))
