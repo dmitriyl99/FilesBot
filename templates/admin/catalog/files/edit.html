@@ -19,7 +19,7 @@
                     <div class="col-sm-12">
                         <div class="form-group {% if form.name.errors %}is-invalid{% endif %}">
                             <div class="form-material form-material-primary floating">
-                                <input type="text" name="name" id="name" class="form-control" value="{{ file.file_name }}">
+                                <input type="text" name="name" id="name" class="form-control" value="{{ file.name }}">
                                 <label for="name">Название файла</label>
                             </div>
                         </div>
@@ -54,7 +54,7 @@
                         <div class="form-group {% if form.caption.errors %}is-invalid{% endif %}">
                             <div class="form-material form-material-primary floating">
                                 <textarea name="caption" id="{{ form.caption.id_for_label }}" cols="" rows="3"
-                                          class="form-control"></textarea>
+                                          class="form-control">{{ file.caption }}</textarea>
                                 <label for="{{ form.caption.id_for_label }}">Описание</label>
                             </div>
                         </div>
@@ -63,7 +63,7 @@
                 <div class="row">
                     <div class="col-sm-12 col-md-6">
                         <label class="css-control css-control-primary css-checkbox">
-                            <input type="checkbox" class="css-control-input" name="hide_file_name">
+                            <input type="checkbox" class="css-control-input" name="hide_file_name" {% if file.hide_file_name %} checked {% endif %}>
                             <span class="css-control-indicator"></span>Заменить название файла на стандартное</label>
                     </div>
                     <div class="col-sm-12 col-md-6">
