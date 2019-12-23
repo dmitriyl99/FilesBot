@@ -34,6 +34,7 @@ class File(models.Model):
     file_path = models.CharField(max_length=200)
     is_user_file = models.BooleanField(default=False)
     hide_file_name = models.BooleanField(default=False)
+    unprintable_file_name = models.BooleanField(default=False)
     show_full_name = models.BooleanField(default=False)
     confirmed = models.BooleanField(default=False)
     caption = models.TextField(max_length=500, blank=True, null=True)
