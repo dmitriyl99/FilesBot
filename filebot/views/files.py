@@ -26,7 +26,7 @@ class CreateFileView(LoginRequiredMixin, FormView):
         uploaded_file_url = os.path.join(BASE_DIR, file_system.path(filename))
         new_file = File.objects.create(file_path=uploaded_file_url,
                                        hide_file_name=form.cleaned_data['hide_file_name'],
-                                       show_full_name=form.cleaned_data['show_full_file_name'],
+                                       unprintable_file_name=form.cleaned_data['unprintable_file_name'],
                                        caption=form.cleaned_data['caption'],
                                        file_url=file_system.url(filename),
                                        category=category)
@@ -59,7 +59,7 @@ class UpdateFileView(LoginRequiredMixin, FormView, SingleObjectMixin):
         self.category = category
         file.category = category
         file.hide_file_name = form.cleaned_data['hide_file_name']
-        file.show_full_name = form.cleaned_data['show_full_file_name']
+        file.unprintable_file_name = form.cleaned_data['unprintable_file_name']
         file.caption = form.cleaned_data['caption']
         file.save()
         uploaded_file = form.cleaned_data['file']
