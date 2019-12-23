@@ -17,6 +17,7 @@
     "catalog.add_favorite.removed": "Файл удалён из избранного!",
     "catalog.add_favorite.error": "Ошибка!",
     "catalog.add_favorite.not_allowed": "У вас нет доступа!",
+    "catalog.files.select": "Выберите файл",
 
     "favorites.empty": "Ваш список избранного пуст",
 
