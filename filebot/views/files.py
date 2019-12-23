@@ -29,6 +29,8 @@ class CreateFileView(LoginRequiredMixin, FormView):
                                        show_full_name=form.cleaned_data['show_full_file_name'],
                                        caption=form.cleaned_data['caption'],
                                        category=category)
+        new_file.name = new_file.get_file_name()
+        new_file.save()
         messages.success(self.request,
                          "Файл %s добавлен в категорию %s" % (new_file.get_full_file_name(), category.name))
         result = super().form_valid(form)
