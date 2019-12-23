@@ -30,6 +30,7 @@ class Category(MPTTModel):
 
 
 class File(models.Model):
+    name = models.CharField(max_length=200, blank=True, null=True)
     file_path = models.CharField(max_length=200)
     is_user_file = models.BooleanField(default=False)
     hide_file_name = models.BooleanField(default=False)
