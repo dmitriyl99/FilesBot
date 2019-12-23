@@ -20,20 +20,21 @@ class CreateFileView(LoginRequiredMixin, FormView):
     def form_valid(self, form):
         category = form.cleaned_data['category']
         self.category = category
-        file = form.cleaned_data['file']
+        files = self.request.FILES.getlist('files')
         file_system = FileSystemStorage()
-        filename = file_system.save(os.path.join(category.name, file.name), file)
-        uploaded_file_url = os.path.join(BASE_DIR, file_system.path(filename))
-        new_file = File.objects.create(file_path=uploaded_file_url,
-                                       hide_file_name=form.cleaned_data['hide_file_name'],
-                                       unprintable_file_name=form.cleaned_data['unprintable_file_name'],
-                                       caption=form.cleaned_data['caption'],
-                                       file_url=file_system.url(filename),
-                                       category=category)
-        new_file.name = new_file.get_file_name()
-        new_file.save()
-        messages.success(self.request,
-                         "Файл %s добавлен в категорию %s" % (new_file.get_full_file_name(), category.name))
+        for file in files:
+            filename = file_system.save(os.path.join(category.name, file.name), file)
+            uploaded_file_url = os.path.join(BASE_DIR, file_system.path(filename))
+            new_file = File.objects.create(file_path=uploaded_file_url,
+                                           hide_file_name=form.cleaned_data['hide_file_name'],
+                                           unprintable_file_name=form.cleaned_data['unprintable_file_name'],
+                                           caption=form.cleaned_data['caption'],
+                                           file_url=file_system.url(filename),
+                                           category=category)
+            new_file.name = new_file.get_file_name()
+            new_file.save()
+            messages.success(self.request,
+                             "Файл %s добавлен в категорию %s" % (new_file.get_full_file_name(), category.name))
         result = super().form_valid(form)
         return result
 

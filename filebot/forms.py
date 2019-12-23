@@ -11,7 +11,7 @@ class CategoryForm(forms.Form):
 class FileForm(forms.Form):
     name = forms.CharField(max_length=200, required=False)
     caption = forms.CharField(max_length=500, required=False)
-    file = forms.FileField(allow_empty_file=True, required=False)
+    files = forms.FileField(allow_empty_file=True, required=False)
     hide_file_name = forms.BooleanField(required=False)
     show_full_file_name = forms.BooleanField(required=False)
     unprintable_file_name = forms.BooleanField(required=False)
