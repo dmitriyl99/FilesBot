@@ -20,3 +20,5 @@ def get_file_by_id(file_id: int) -> Optional[File]:
         return None
 
 
+def get_file_by_name(file_name: str) -> Optional[File]:
+    return File.objects.filter(name=file_name).first()
