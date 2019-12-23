@@ -4,7 +4,7 @@
     <span class="breadcrumb-item active">Настрйоки</span>
 {% endblock %}
 {% block content %}
-    <form action="" method="post">
+    <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %}
         <div class="block">
             <div class="block-header block-header-default">
@@ -48,6 +48,13 @@
                             {% for error in form.share_text.errors %}
                                 <div class="invalid-feedback">{{ error }}</div>
                             {% endfor %}
+                        </div>
+                        <div class="form-group {% if form.share_photo.errors %}is-invalid{% endif %}">
+                            <div class="form-material form-material-primary">
+                                <input type="file" name="share_photo" id="{{ form.share_photo.id_for_label }}" class="form-control">
+                                <label for="{{ form.share_photo.id_for_label }}">Фото</label>
+                            </div>
+                            <img src="{{ object.share_photo.url }}" alt="" style="max-width: 100%">
                         </div>
                     </div>
                 </div>

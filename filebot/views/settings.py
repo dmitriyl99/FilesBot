@@ -8,7 +8,7 @@ from django.contrib import messages
 class SettingsView(LoginRequiredMixin, UpdateView):
     template_name = 'admin/settings/index.html'
     model = Settings
-    fields = ['share_text', 'contacts_text', 'start_message_text']
+    fields = ['share_text', 'contacts_text', 'start_message_text', 'share_photo']
     success_url = reverse_lazy('admin-settings')
 
     def get_object(self, queryset=None):
