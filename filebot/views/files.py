@@ -28,6 +28,7 @@ class CreateFileView(LoginRequiredMixin, FormView):
                                        hide_file_name=form.cleaned_data['hide_file_name'],
                                        show_full_name=form.cleaned_data['show_full_file_name'],
                                        caption=form.cleaned_data['caption'],
+                                       file_url=file_system.url(filename),
                                        category=category)
         new_file.name = new_file.get_file_name()
         new_file.save()
