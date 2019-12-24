@@ -21,7 +21,7 @@ from django.conf.urls import include, url
 urlpatterns = [
     path(r'accounts/', include('django.contrib.auth.urls')),
     path('', include('filebot.urls'))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
    import debug_toolbar

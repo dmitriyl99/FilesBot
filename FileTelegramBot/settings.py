@@ -28,9 +28,9 @@ load_dotenv(os.path.join(BASE_DIR, '.env'))
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['files.elite-house.uz']
 
 
 # Application definition
@@ -128,17 +128,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static")
-]
 
 # Telegram Bot settings
 API_TOKEN = os.environ.get('API_TOKEN')
 WEBHOOK_HOST = os.environ.get('WEBHOOK_HOST')
-WEBHOOK_URL_BASE = 'https://%s/bot' % WEBHOOK_HOST
+WEBHOOK_URL_BASE = 'https://%s/' % WEBHOOK_HOST
 WEBHOOK_URL_PATH = '%s/' % API_TOKEN
 
 if DEBUG:

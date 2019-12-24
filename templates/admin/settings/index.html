@@ -54,7 +54,9 @@
                                 <input type="file" name="share_photo" id="{{ form.share_photo.id_for_label }}" class="form-control">
                                 <label for="{{ form.share_photo.id_for_label }}">Фото</label>
                             </div>
+                            {% if object.share_photo %}
                             <img src="{{ object.share_photo.url }}" alt="" style="max-width: 100%">
+                            {% endif %}
                         </div>
                     </div>
                 </div>
