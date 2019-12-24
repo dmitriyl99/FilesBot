@@ -11,6 +11,7 @@
     "share.no_share_text": "Информация не указана",
 
     "catalog.categories.select": "Выберите категорию",
+    "catalog.categories.empty": "Каталог пуст",
     "catalog.add_favorite.add": "В избранное ❤",
     "catalog.add_favorite.remove": "Удалить из избранного",
     "catalog.add_favorite.added": "Файл добавлен в избранное!",

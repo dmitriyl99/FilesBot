@@ -58,6 +58,10 @@ class Navigation:
     def to_catalog(chat_id):
         from bot.catalog import category_handler
         root_categories = files.get_parent_categories()
+        if not root_categories:
+            empty_message = strings.get_string('catalog.categories.empty')
+            telegram_bot.send_message(chat_id, empty_message)
+            return
         select_message = strings.get_string('catalog.categories.select')
         categories_keyboard = keyboards.from_categories_list_to_keyboard(root_categories)
         telegram_bot.send_message(chat_id, select_message, reply_markup=categories_keyboard)
