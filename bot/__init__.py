@@ -10,4 +10,4 @@ if settings.DEBUG:
     from telebot import logger
     logger.setLevel(logging.DEBUG)
 
-from . import start, contacts, share
+from . import start, contacts, share, catalog, favorites
