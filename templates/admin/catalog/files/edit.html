@@ -29,7 +29,7 @@
                     <div class="col-sm-12 col-md-6">
                         <div class="form-group {% if form.file.errors %}is-invalid{% endif %}">
                             <div class="form-material form-material-primary">
-                                <input type="file" name="file" id="{{ form.file.id_for_label }}" class="form-control">
+                                <input type="file" name="files" id="{{ form.file.id_for_label }}" class="form-control">
                                 <label for="{{ form.file.id_for_label }}">Файл</label>
                             </div>
                             {% for error in form.file.errors %}

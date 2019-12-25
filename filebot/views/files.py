@@ -63,7 +63,7 @@ class UpdateFileView(LoginRequiredMixin, FormView, SingleObjectMixin):
         file.unprintable_file_name = form.cleaned_data['unprintable_file_name']
         file.caption = form.cleaned_data['caption']
         file.save()
-        uploaded_file = form.cleaned_data['file']
+        uploaded_file = form.cleaned_data['files']
         if not uploaded_file and form.cleaned_data['name'] != file.file_name:
             result = file.rename_file(form.cleaned_data['name'])
             if result:
