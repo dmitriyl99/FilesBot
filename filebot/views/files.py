@@ -1,4 +1,4 @@
-from django.views.generic import DeleteView, FormView
+from django.views.generic import DeleteView, FormView, ListView, View
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -7,6 +7,7 @@ from FileTelegramBot.settings import BASE_DIR
 from filebot.forms import FileForm
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
+from django.shortcuts import redirect
 from bot import telegram_bot
 import os
 
@@ -94,3 +95,21 @@ class DeleteFileView(LoginRequiredMixin, DeleteView):
         result = super().delete(request, *args, **kwargs)
         messages.success(request, "Файл %s удалён" % file_name)
         return result
+
+
+class UserFilesView(LoginRequiredMixin, ListView):
+    model = File
+    queryset = File.objects.filter(is_user_file=True).order_by('id', 'desc')
+    template_name = 'admin/catalog/files/users.html'
+    context_object_name = 'files'
+
+
+class ConfirmUserFileView(LoginRequiredMixin, View, SingleObjectMixin):
+    model = File
+
+    def post(self, request, *args, **kwargs):
+        file = self.get_object()
+        file.confirmed = True
+        file.save()
+        messages.success(request, "Файл %s одобрен!" % file.name)
+        return redirect('admin-catalog-userfiles')
