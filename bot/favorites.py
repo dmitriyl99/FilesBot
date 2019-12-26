@@ -2,7 +2,7 @@ from . import telegram_bot
 from telebot.types import CallbackQuery, Message
 from core import users, files
 from resources import strings, keyboards
-from .utils import Access, Helpers
+from .utils import Access, Helpers, Navigation
 
 
 @telegram_bot.callback_query_handler(func=lambda m: True)
@@ -48,5 +48,29 @@ def favorites_handler(message: Message):
         empty_message = strings.get_string('favorites.empty')
         telegram_bot.send_message(user_id, empty_message)
         return
-    for file in user_files:
-        Helpers.send_file(user_id, file, user, favorites=True)
+    select_message = strings.get_string('catalog.files.select')
+    files_keyboard = keyboards.from_files_list_to_keyboard(user_files)
+    telegram_bot.send_message(user_id, select_message, reply_markup=files_keyboard)
+    telegram_bot.register_next_step_handler_by_chat_id(user_id, file_handler)
+
+
+def file_handler(message: Message):
+    user_id = message.from_user.id
+    user = users.get_user_by_telegram_id(user_id)
+
+    def error():
+        telegram_bot.send_message(user_id, strings.get_string('catalog.files.select'))
+        telegram_bot.register_next_step_handler_by_chat_id(user_id, file_handler)
+
+    if not message.text:
+        error()
+        return
+    if strings.get_string('back') in message.text:
+        Navigation.to_main_menu(user_id)
+    else:
+        file = files.get_file_by_name(message.text)
+        if not file:
+            error()
+            return
+        Helpers.send_file(user_id, file, user)
+        telegram_bot.register_next_step_handler_by_chat_id(user_id, file_handler)
