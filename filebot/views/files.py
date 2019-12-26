@@ -107,7 +107,7 @@ class UserFilesView(LoginRequiredMixin, ListView):
 class ConfirmUserFileView(LoginRequiredMixin, View, SingleObjectMixin):
     model = File
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         file = self.get_object()
         file.confirmed = True
         file.save()
