@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import index, categories, files, settings, bot, statistics
+from .views import index, categories, files, settings, bot, statistics, botusers
 from FileTelegramBot.settings import WEBHOOK_URL_PATH
 
 urlpatterns = [
@@ -15,6 +15,7 @@ urlpatterns = [
     path('catalog/files/<int:pk>/edit', files.UpdateFileView.as_view(), name='admin-catalog-files-edit'),
     path('catalog/files/<int:pk>/remove', files.DeleteFileView.as_view(), name='admin-catalog-files-remove'),
     path('statistics/', statistics.StatisticsIndexView.as_view(), name='admin-statistics'),
+    path('bot-users/', botusers.BotUsersIndexView.as_view(), name='admin-botusers'),
 
     path('init/', bot.BotInitializeView.as_view()),
     path(WEBHOOK_URL_PATH, bot.BotUpdatesRecieverView.as_view())
