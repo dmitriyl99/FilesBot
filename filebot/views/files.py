@@ -7,6 +7,7 @@ from FileTelegramBot.settings import BASE_DIR
 from filebot.forms import FileForm
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
+from bot import telegram_bot
 import os
 
 
@@ -28,7 +29,8 @@ class CreateFileView(LoginRequiredMixin, FormView):
             new_file = File.objects.create(file_path=uploaded_file_url,
                                            hide_file_name=form.cleaned_data['hide_file_name'],
                                            unprintable_file_name=form.cleaned_data['unprintable_file_name'],
-                                           caption=form.cleaned_data['caption'],
+                                           caption='<a href="tg://user?id=%d">Ссылка на бота</a>'
+                                                   % telegram_bot.get_me().id,
                                            file_url=file_system.url(filename),
                                            category=category)
             new_file.name = new_file.get_file_name()
