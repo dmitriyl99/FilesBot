@@ -99,7 +99,7 @@ class DeleteFileView(LoginRequiredMixin, DeleteView):
 
 class UserFilesView(LoginRequiredMixin, ListView):
     model = File
-    queryset = File.objects.filter(is_user_file=True).order_by('id', 'desc')
+    queryset = File.objects.filter(is_user_file=True).order_by('-id')
     template_name = 'admin/catalog/files/users.html'
     context_object_name = 'files'
 
