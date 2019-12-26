@@ -9,7 +9,7 @@ from filebot.models import Category, File
 
 
 def _create_keyboard(row_width=3) -> ReplyKeyboardMarkup:
-    return ReplyKeyboardMarkup(resize_keyboard=True, row_width=3)
+    return ReplyKeyboardMarkup(resize_keyboard=True, row_width=row_width)
 
 
 _default_value = _create_keyboard(row_width=1)
