@@ -10,6 +10,10 @@ class Category(MPTTModel):
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
     clicks = models.IntegerField(default=0)
 
+    def add_click(self):
+        self.clicks += 1
+        self.save()
+
     @property
     def has_children(self):
         return self.get_children().count() > 0

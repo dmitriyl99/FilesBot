@@ -46,6 +46,7 @@ def category_handler(message: Message, *args, **kwargs):
         if not category:
             error()
             return
+        category.add_click()
         new_current_category = category if category.has_children else category.parent
         if category.file_set.count() > 0:
             category_files = category.file_set.all()
