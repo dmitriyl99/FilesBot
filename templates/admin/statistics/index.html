@@ -1,0 +1,39 @@
+{% extends 'layouts/app.html' %}
+{% block title %}Статистика{% endblock %}
+{% block breadcrumbs %}
+    <span class="breadcrumb-item active">Статистика</span>
+{% endblock %}
+{% block content %}
+    <div class="block">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">Популярность категорий</h3>
+        </div>
+        <div class="block-content">
+            {% if categories %}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-vcenter">
+                        <thead>
+                            <tr>
+                                <th class="text-center font-w600">Название категории</th>
+                                <th class="text-center">Количество кликов</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for category in categories %}
+                                <tr>
+                                    <td class="text-center">{{ category.name }}</td>
+                                    <td class="text-center font-w600">{{ category.clicks }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="py-30 text-center">
+                    <i class="si si-ghost text-primary display-3"></i>
+                    <p class="mt-20 font-size-h5">Ещё нет ни одной категории</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
