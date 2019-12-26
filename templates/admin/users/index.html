@@ -1,0 +1,39 @@
+{% extends 'layouts/app.html' %}
+{% block title %}Пользователи{% endblock %}
+{% block breadcrumbs %}
+    <span class="breadcrumb-item active">Пользователи Telegram Bot</span>
+{% endblock %}
+{% block content %}
+    <div class="block">
+        <div class="block-header block-header-default">
+            <h3 class="block-title">Пользователи Telegram Bot</h3>
+        </div>
+        <div class="block-content">
+            {% if users %}
+                <div class="table-responsive">
+                    <table class="table table-bordered table-vcenter">
+                        <thead>
+                            <tr>
+                                <th class="text-center font-w600">Имя</th>
+                                <th class="text-center font-w600">Фамилия</th>
+                                <th class="text-center font-w600">Юзернейм</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr>
+                                    <td class="text-center">{{ user.first_name }}</td>
+                                    <td class="text-center">
+                                        {% if user.last_name %}{{ user.last_name }}{% else %}-{% endif %}</td>
+                                    <td class="text-center">
+                                        {% if user.username %}{{ user.username }}{% else %}-{% endif %}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+            </div>
+            {% else %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
