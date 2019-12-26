@@ -63,7 +63,7 @@ class Navigation:
             telegram_bot.send_message(chat_id, empty_message)
             return
         select_message = strings.get_string('catalog.categories.select')
-        categories_keyboard = keyboards.from_categories_list_to_keyboard(root_categories)
+        categories_keyboard = keyboards.from_categories_list_to_keyboard(root_categories, include_from_users=True)
         telegram_bot.send_message(chat_id, select_message, reply_markup=categories_keyboard)
         telegram_bot.register_next_step_handler_by_chat_id(chat_id, category_handler, current_category=None)
 

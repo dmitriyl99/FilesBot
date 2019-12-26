@@ -30,9 +30,11 @@ def get_keyboard(key: str) -> ReplyKeyboardMarkup:
         return _default_value
 
 
-def from_categories_list_to_keyboard(categories: List[Category]) -> ReplyKeyboardMarkup:
+def from_categories_list_to_keyboard(categories: List[Category], include_from_users=False) -> ReplyKeyboardMarkup:
     keyboard = _create_keyboard(row_width=2)
     keyboard.add(*[category.name for category in categories])
+    if include_from_users:
+        keyboard.add(strings.get_string('catalog.from_users'))
     keyboard.add(strings.get_string('back'))
     return keyboard
 
