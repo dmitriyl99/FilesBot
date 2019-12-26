@@ -16,6 +16,8 @@ urlpatterns = [
     path('catalog/files/<int:pk>/remove', files.DeleteFileView.as_view(), name='admin-catalog-files-remove'),
     path('statistics/', statistics.StatisticsIndexView.as_view(), name='admin-statistics'),
     path('bot-users/', botusers.BotUsersIndexView.as_view(), name='admin-botusers'),
+    path('catalog/user-files/', files.UserFilesView.as_view(), name='admin-catalog-userfiles'),
+    path('catalog/user-files/<int:pk>/confirm', files.ConfirmUserFileView.as_view(), name='admin-catalog-userfiles-confirm'),
 
     path('init/', bot.BotInitializeView.as_view()),
     path(WEBHOOK_URL_PATH, bot.BotUpdatesRecieverView.as_view())

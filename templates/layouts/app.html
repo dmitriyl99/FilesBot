@@ -83,7 +83,13 @@
                     <!-- Side Navigation -->
                     <div class="content-side content-side-full">
                         <ul class="nav-main">
-                            <li><a href="{% url 'admin-catalog' %}"><i class="si si-list"></i>Каталог</a></li>
+                            <li>
+                                <a href="#" class="nav-submenu" data-toggle="nav-submenu"><i class="si si-list"></i>Каталог</a>
+                                <ul>
+                                    <li><a href="{% url 'admin-catalog' %}">Основной</a></li>
+                                    <li><a href="{% url 'admin-catalog-userfiles' %}">Файлы от пользователей</a></li>
+                                </ul>
+                            </li>
                             <li><a href="{% url 'admin-botusers' %}"><i class="si si-users"></i>Пользователи Telegram</a></li>
                             <li><a href="{% url 'admin-statistics' %}"><i class="si si-bar-chart"></i>Статистика</a></li>
                             <li><a href="{% url 'admin-settings' %}"><i class="fa fa-telegram"></i>Telegram Bot</a></li>
