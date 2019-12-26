@@ -22,3 +22,7 @@ def get_file_by_id(file_id: int) -> Optional[File]:
 
 def get_file_by_name(file_name: str) -> Optional[File]:
     return File.objects.filter(name=file_name).first()
+
+
+def get_users_files() -> List[File]:
+    return File.objects.filter(is_user_file=True, confirmed=True)
