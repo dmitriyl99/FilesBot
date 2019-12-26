@@ -42,6 +42,18 @@ def category_handler(message: Message, *args, **kwargs):
     if strings.get_string('back') in message.text:
         _go_back(user_id, current_category)
     else:
+        if strings.get_string('catalog.from_users') in message.text:
+            user_files = files.get_users_files()
+            if not user_files:
+                empty_message = strings.get_string('catalog.from_users.empty')
+                telegram_bot.send_message(user_id, empty_message)
+                telegram_bot.register_next_step_handler_by_chat_id(user_id, category_handler, current_category=None)
+                return
+            select_message = strings.get_string('catalog.files.select')
+            files_keyboard = keyboards.from_files_list_to_keyboard(user_files)
+            telegram_bot.send_message(user_id, select_message, reply_markup=files_keyboard)
+            telegram_bot.register_next_step_handler_by_chat_id(user_id, file_handler, current_category=None)
+            return
         category = files.get_category_by_name(message.text, current_category)
         if not category:
             error()
