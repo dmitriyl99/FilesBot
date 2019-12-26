@@ -45,7 +45,7 @@ class File(models.Model):
     confirmed = models.BooleanField(default=False)
     caption = models.TextField(max_length=500, blank=True, null=True)
 
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
 
     def get_full_file_name(self):
         return os.path.basename(self.file_path)

@@ -10,7 +10,7 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         telegram_bot.remove_webhook()
         telebot.logger.setLevel(logging.DEBUG)
-        from bot import start, contacts, share, favorites, catalog
+        from bot import start, contacts, share, favorites, catalog, userfiles
         self.stdout.write(self.style.SUCCESS('Starting Telegram bot in polling mode...'))
         telegram_bot.polling(none_stop=True)
         self.stdout.write(self.style.SUCCESS('Telegram bot has been stopped'))
