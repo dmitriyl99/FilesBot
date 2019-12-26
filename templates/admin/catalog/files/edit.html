@@ -9,12 +9,12 @@
         {% csrf_token %}
         <div class="block">
             <div class="block-header block-header-default">
-                <h3 class="block-title">{{ object.full_file_name }}</h3>
+                <h3 class="block-title">{{ object.full_file_name }} {% if object.is_user_file %} <small>От пользователя</small> {% endif %}</h3>
                 <div class="block-options">
                     <button type="submit" class="btn btn-sm btn-alt-primary"><i class="si si-check mr-5"></i>Сохранить</button>
                     {% if object.is_user_file and not object.confirmed %}
                         <a href="{% url 'admin-catalog-userfiles-confirm' pk=object.id %}"
-                           class="btn btn-sm btn-alt-info"><i class="si si-check mr-5"></i></a>
+                           class="btn btn-sm btn-alt-info"><i class="si si-check mr-5"></i> Подтвердить</a>
                     {% endif %}
                 </div>
             </div>
