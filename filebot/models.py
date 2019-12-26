@@ -8,6 +8,7 @@ import os
 class Category(MPTTModel):
     name = models.CharField(max_length=200)
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+    clicks = models.IntegerField(default=0)
 
     @property
     def has_children(self):
