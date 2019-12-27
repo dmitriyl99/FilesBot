@@ -45,3 +45,5 @@ class AdvertisingPostView(LoginRequiredMixin, FormView):
         if file:
             file_storage.delete(filename)
         messages.success(self.request, "Рассылка прошла успешно!")
+        result = super().form_valid(form)
+        return result
