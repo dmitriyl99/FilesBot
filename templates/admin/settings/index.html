@@ -64,7 +64,7 @@
         </div>
     </form>
 
-    <form action="{% url 'admin-settings-advertising-post' %}" method="post">
+    <form action="{% url 'admin-settings-advertising-post' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="block">
             <div class="block-header block-header-default">
