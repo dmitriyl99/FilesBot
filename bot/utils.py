@@ -38,6 +38,12 @@ class Access:
         return Access._private(m) and Access._auth(m) and strings.get_string('main_menu.categories') in m.text
 
     @staticmethod
+    def upload(m: Message):
+        if not m.text:
+            return False
+        return Access._private(m) and Access._auth(m) and strings.get_string('main_menu.upload') in m.text
+
+    @staticmethod
     def favorites(m: Message):
         if not m.text:
             return False

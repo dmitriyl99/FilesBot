@@ -1,4 +1,5 @@
 from . import telegram_bot
+from .utils import Access
 from telebot.types import Message
 from resources import strings
 from filebot.models import File
@@ -7,6 +8,13 @@ from django.core.files.storage import FileSystemStorage
 import logging
 import requests
 import os
+
+
+@telegram_bot.message_handler(content_types=['text'], func=Access.upload)
+def index_handler(message: Message):
+    user_id = message.from_user.id
+    helper_text = strings.get_string('user_files.help_text')
+    telegram_bot.send_message(user_id, helper_text)
 
 
 @telegram_bot.message_handler(content_types=['document', 'audio', 'photo', 'video'])
