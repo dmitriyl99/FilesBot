@@ -6,7 +6,7 @@
 {% block content %}
     <div class="block">
         <div class="block-header block-header-default">
-            <h3 class="block-title">Пользователи Telegram Bot {% if users %}Всего: {{ users|length }} {% endif %}</h3>
+            <h3 class="block-title">Пользователи Telegram Bot{% if users %}. Всего: {{ users|length }} {% endif %}</h3>
         </div>
         <div class="block-content">
             {% if users %}
