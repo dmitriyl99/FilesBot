@@ -1,9 +1,10 @@
 {
     "main_menu.no_start_message": "No start message :(. Please write me later.",
     "main_menu.menu": "Главное меню",
-    "main_menu.categories": "Категории",
+    "main_menu.categories": "Посмотреть",
     "main_menu.favorites": "Избранное",
     "main_menu.contacts": "Контакты",
+    "main_menu.upload": "Добавить файл",
     "main_menu.share": "Поделиться",
 
     "contacts.no_contacts": "Контакты ещё не указаны",
