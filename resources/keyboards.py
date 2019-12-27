@@ -20,7 +20,7 @@ def get_keyboard(key: str) -> ReplyKeyboardMarkup:
     if key == 'remove':
         return ReplyKeyboardRemove()
     elif key == 'main_menu':
-        main_menu_keyboard = _create_keyboard(row_width=2)
+        main_menu_keyboard = _create_keyboard(row_width=3)
         main_menu_keyboard.add(strings.get_string('main_menu.categories'),
                                strings.get_string('main_menu.favorites'),
                                strings.get_string('main_menu.upload'),
