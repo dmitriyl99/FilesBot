@@ -5,6 +5,7 @@ from resources import strings, keyboards
 from filebot.models import File, BotUser
 from shutil import copyfile
 import os
+from time import sleep
 
 
 class Access:
@@ -103,3 +104,20 @@ class Helpers:
                    reply_markup=file_keyboard, parse_mode='HTML')
             if file.hide_file_name or file.unprintable_file_name:
                 os.remove(file_path)
+
+    @staticmethod
+    def distribute_advertising_post(text: str, file_path: str = None):
+        all_users = users.get_all_users()
+        for user in all_users:
+            if file_path:
+                extension = os.path.splitext(os.path.basename(file_path))[1]
+                if extension in ['.jpg', '.png']:
+                    method = telegram_bot.send_photo
+                elif extension in ['.mp3']:
+                    method = telegram_bot.send_audio
+                else:
+                    method = telegram_bot.send_document
+                method(user.id, open(file_path, 'rb'), caption=text, parse_mode='HTML')
+            else:
+                telegram_bot.send_message(user.id, text, parse_mode='HTML')
+            sleep(0.1)
