@@ -1,5 +1,5 @@
 from filebot.models import BotUser
-from typing import Optional
+from typing import Optional, List
 
 
 def add_user(telegram_id: int, first_name: str, last_name: str, username: str) -> BotUser:
@@ -21,3 +21,7 @@ def get_user_by_telegram_id(telegram_id: int) -> Optional[BotUser]:
         return BotUser.objects.get(pk=telegram_id)
     except BotUser.DoesNotExist:
         return None
+
+
+def get_all_users() -> List[BotUser]:
+    return BotUser.objects.all()
