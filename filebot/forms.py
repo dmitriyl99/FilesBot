@@ -16,3 +16,8 @@ class FileForm(forms.Form):
     show_full_file_name = forms.BooleanField(required=False)
     unprintable_file_name = forms.BooleanField(required=False)
     category = TreeNodeChoiceField(queryset=Category.objects.all())
+
+
+class AdvertisingPostForm(forms.Form):
+    text = forms.CharField(max_length=500)
+    file = forms.FileField(required=False)
