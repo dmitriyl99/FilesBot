@@ -6,6 +6,7 @@ urlpatterns = [
     path('', index.IndexView.as_view(), name='admin-home'),
     path('catalog/', categories.CategoryListView.as_view(), name='admin-catalog'),
     path('settings/', settings.SettingsView.as_view(), name='admin-settings'),
+    path('settings/send-advertising-post', settings.AdvertisingPostView.as_view(), name='admin-settings-advertising-post'),
     path('catalog/<int:pk>', categories.ShowCategoryChildrenView.as_view(), name='admin-catalog-categories-children'),
     path('catalog/<int:pk>/files', categories.ShowCategoryFilesView.as_view(), name='admin-catalog-categories-files'),
     path('catalog/category/add', categories.CreateCategoryView.as_view(), name='admin-catalog-category-add'),
