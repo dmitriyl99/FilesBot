@@ -50,6 +50,12 @@ class Access:
             return False
         return Access._private(m) and Access._auth(m) and strings.get_string('main_menu.favorites') in m.text
 
+    @staticmethod
+    def search(m: Message):
+        if not m.text:
+            return False
+        return Access._private(m) and Access._auth(m) and strings.get_string('main_menu.search') in m.text
+
 
 class Navigation:
     @staticmethod
@@ -73,6 +79,14 @@ class Navigation:
         categories_keyboard = keyboards.from_categories_list_to_keyboard(root_categories, include_from_users=True)
         telegram_bot.send_message(chat_id, select_message, reply_markup=categories_keyboard)
         telegram_bot.register_next_step_handler_by_chat_id(chat_id, category_handler, current_category=None)
+
+    @staticmethod
+    def to_search(chat_id):
+        from .search import search_handler
+        index_message = strings.get_string('search.type_query')
+        search_keyboard = keyboards.get_keyboard('search.index')
+        telegram_bot.send_message(chat_id, index_message, reply_markup=search_keyboard)
+        telegram_bot.register_next_step_handler_by_chat_id(chat_id, search_handler)
 
 
 class Helpers:
