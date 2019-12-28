@@ -8,6 +8,7 @@ from django.core.files.storage import FileSystemStorage
 import logging
 import requests
 import os
+from core import users
 
 
 @telegram_bot.message_handler(content_types=['text'], func=Access.upload)
@@ -52,11 +53,13 @@ def user_file_handler(message: Message):
             filename += extension
             filepath = os.path.join(file_storage.location, filename)
             open(filepath, 'wb').write(telegram_file.content)
+            user = users.get_user_by_telegram_id(message.from_user.id)
             File.objects.create(name=file_caption,
                                 file_path=file_storage.path(filename),
                                 file_url=file_storage.url(filename),
                                 is_user_file=True,
-                                caption='<a href="tg://user?id=%d">Ссылка на бота</a>' % telegram_bot.get_me().id)
+                                caption='<a href="tg://user?id=%d">Ссылка на бота</a>' % telegram_bot.get_me().id,
+                                user=user)
             success_message = strings.get_string('user_files.success')
             telegram_bot.reply_to(message, success_message)
         except Exception as e:
