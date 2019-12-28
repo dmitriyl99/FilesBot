@@ -29,4 +29,4 @@ def get_users_files() -> List[File]:
 
 
 def search_files(query: str):
-    return File.objects.filter(name__contains=query, confirmed=True)
+    return File.objects.filter(name__icontains=query, confirmed=True)
