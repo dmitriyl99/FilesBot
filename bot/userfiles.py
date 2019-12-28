@@ -58,7 +58,7 @@ def user_file_handler(message: Message):
                                 file_path=file_storage.path(filename),
                                 file_url=file_storage.url(filename),
                                 is_user_file=True,
-                                caption='<a href="tg://user?id=%d">Ссылка на бота</a>' % telegram_bot.get_me().id,
+                                caption='@send_sound_bot',
                                 user=user)
             success_message = strings.get_string('user_files.success')
             telegram_bot.reply_to(message, success_message)
