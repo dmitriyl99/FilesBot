@@ -18,7 +18,7 @@ def index_handler(message: Message):
     telegram_bot.send_message(user_id, helper_text)
 
 
-@telegram_bot.message_handler(content_types=['document', 'audio', 'photo', 'video'])
+@telegram_bot.message_handler(content_types=['audio'])
 def user_file_handler(message: Message):
     if message.photo:
         user_telegram_file = message.photo[-1]
