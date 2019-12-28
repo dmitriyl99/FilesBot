@@ -6,6 +6,14 @@
     <a href="{% url 'admin-catalog' %}" class="breadcrumb-item">Каталог</a>
     <span class="breadcrumb-item active">Файлы пользователей</span>
 {% endblock %}
+{% block styles %}
+    <style>
+        audio:focus {
+            outline: none;
+            height: 30px;
+        }
+    </style>
+{% endblock %}
 {% block content %}
     <div class="block">
         <div class="block-header block-header-default">
@@ -26,7 +34,7 @@
                             {% for file in files %}
                                 <tr>
                                     <td class="text-center {% if file.extension == '.mp3' %}d-flex justify-content-center align-items-center{% endif %}">{{ file.file_name }} {% if file.extension == '.mp3' %}
-                                        <audio controls src="{{ file.file_url }}" style="height: 30px" class="ml-15"></audio> {% endif %}</td>
+                                        <audio controls src="{{ file.file_url }}" class="ml-15"></audio> {% endif %}</td>
                                     <td class="text-center">{{ file.user.first_name }}{% if file.user.last_name %}{{ file.user.last_name }}{% endif %}{% if file.user.username %} | {{ file.user.username }}{% endif %}</td>
                                     <td class="text-center d-flex justify-content-center align-items-center">
                                         <a href="{% url 'admin-catalog-files-edit' pk=file.id %}" class="btn btn-sm btn-alt-info mr-10" data-toggle="tooltip" title="Редактировать"><i class="si si-pencil"></i></a>
