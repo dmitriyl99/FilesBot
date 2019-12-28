@@ -26,3 +26,7 @@ def get_file_by_name(file_name: str) -> Optional[File]:
 
 def get_users_files() -> List[File]:
     return File.objects.filter(is_user_file=True, confirmed=True)
+
+
+def search_files(query: str):
+    return File.objects.filter(name__contains=query, confirmed=True)
