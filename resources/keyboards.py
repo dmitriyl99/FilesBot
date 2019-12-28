@@ -28,6 +28,10 @@ def get_keyboard(key: str) -> ReplyKeyboardMarkup:
                                strings.get_string('main_menu.contacts'),
                                strings.get_string('main_menu.share'))
         return main_menu_keyboard
+    elif key == 'search.index':
+        search_keyboard = _create_keyboard(row_width=1)
+        search_keyboard.add(strings.get_string('back'))
+        return search_keyboard
     else:
         return _default_value
 
