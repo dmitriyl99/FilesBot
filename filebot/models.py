@@ -84,7 +84,8 @@ class File(models.Model):
     def rename_file(self, new_name):
         file_storage = FileSystemStorage()
         extension = self.get_file_extension()
-        new_file_name = os.path.join(self.category.name, new_name + extension)
+        file_category = self.category.name if self.category else 'users'
+        new_file_name = os.path.join(file_category, new_name + extension)
         if file_storage.exists(os.path.join(self.category.name, new_name + extension)):
             return False
         old_file_name = self.file_name
