@@ -8,7 +8,6 @@ from filebot.forms import FileForm
 from django.urls import reverse
 from django.core.files.storage import FileSystemStorage
 from django.shortcuts import redirect
-from bot import telegram_bot
 import os
 
 
@@ -30,8 +29,7 @@ class CreateFileView(LoginRequiredMixin, FormView):
             new_file = File.objects.create(file_path=uploaded_file_url,
                                            hide_file_name=form.cleaned_data['hide_file_name'],
                                            unprintable_file_name=form.cleaned_data['unprintable_file_name'],
-                                           caption='@send_sound_bot'
-                                                   % telegram_bot.get_me().id,
+                                           caption='@send_sound_bot',
                                            file_url=file_system.url(filename),
                                            category=category)
             new_file.name = new_file.get_file_name()
