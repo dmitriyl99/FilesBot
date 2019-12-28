@@ -23,6 +23,7 @@ def get_keyboard(key: str) -> ReplyKeyboardMarkup:
         main_menu_keyboard = _create_keyboard(row_width=3)
         main_menu_keyboard.add(strings.get_string('main_menu.categories'),
                                strings.get_string('main_menu.favorites'),
+                               strings.get_string('main_menu.search'),
                                strings.get_string('main_menu.upload'),
                                strings.get_string('main_menu.contacts'),
                                strings.get_string('main_menu.share'))
