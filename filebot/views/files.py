@@ -30,8 +30,9 @@ class CreateFileView(LoginRequiredMixin, FormView):
                                            hide_file_name=not form.cleaned_data['hide_file_name'],
                                            unprintable_file_name=form.cleaned_data['unprintable_file_name'],
                                            caption='@send_sound_bot',
+                                           is_user_file=form.cleaned_data['is_user_file'],
                                            file_url=file_system.url(filename),
-                                           category=category)
+                                           category=None if form.cleaned_data['is_user_file'] else category)
             new_file.name = new_file.get_file_name()
             new_file.save()
             messages.success(self.request,
@@ -62,10 +63,11 @@ class UpdateFileView(LoginRequiredMixin, FormView, SingleObjectMixin):
         file = self.object
         category = form.cleaned_data['category']
         self.category = category
-        file.category = category
+        file.category = None if form.cleaned_data['is_user_file'] else category
         file.hide_file_name = not form.cleaned_data['hide_file_name']
         file.unprintable_file_name = form.cleaned_data['unprintable_file_name']
         file.caption = form.cleaned_data['caption']
+        file.is_user_file = form.cleaned_data['is_user_file']
         file.save()
         uploaded_file = form.cleaned_data['files']
         if not uploaded_file and form.cleaned_data['name'] != file.file_name:
