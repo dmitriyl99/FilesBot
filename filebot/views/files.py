@@ -24,7 +24,8 @@ class CreateFileView(LoginRequiredMixin, FormView):
         files = self.request.FILES.getlist('files')
         file_system = FileSystemStorage()
         for file in files:
-            filename = file_system.save(os.path.join(category.name, file.name), file)
+            category_name = 'users' if form.cleaned_data['is_user_file'] else category.name
+            filename = file_system.save(os.path.join(category_name, file.name), file)
             uploaded_file_url = os.path.join(BASE_DIR, file_system.path(filename))
             new_file = File.objects.create(file_path=uploaded_file_url,
                                            hide_file_name=not form.cleaned_data['hide_file_name'],
