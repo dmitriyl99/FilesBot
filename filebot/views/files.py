@@ -63,7 +63,7 @@ class UpdateFileView(LoginRequiredMixin, FormView, SingleObjectMixin):
         category = form.cleaned_data['category']
         self.category = category
         file.category = category
-        file.hide_file_name = form.cleaned_data['hide_file_name']
+        file.hide_file_name = not form.cleaned_data['hide_file_name']
         file.unprintable_file_name = form.cleaned_data['unprintable_file_name']
         file.caption = form.cleaned_data['caption']
         file.save()
