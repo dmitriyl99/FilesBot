@@ -53,7 +53,10 @@ class UpdateFileView(LoginRequiredMixin, FormView, SingleObjectMixin):
         return super().post(request, *args, **kwargs)
 
     def get_success_url(self):
-        return reverse('admin-catalog-categories-files', kwargs={'pk': self.category.id})
+        if self.category:
+            return reverse('admin-catalog-categories-files', kwargs={'pk': self.category.id})
+        else:
+            return reverse('admin-catalog-userfiles')
 
     def form_valid(self, form):
         file = self.object
