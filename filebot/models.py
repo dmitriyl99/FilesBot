@@ -39,7 +39,7 @@ class File(models.Model):
     file_path = models.CharField(max_length=200)
     file_url = models.CharField(max_length=200, blank=True, null=True)
     is_user_file = models.BooleanField(default=False)
-    hide_file_name = models.BooleanField(default=False)
+    hide_file_name = models.BooleanField(default=True)
     unprintable_file_name = models.BooleanField(default=False)
     show_full_name = models.BooleanField(default=False)
     confirmed = models.BooleanField(default=True)
