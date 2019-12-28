@@ -93,7 +93,10 @@ class DeleteFileView(LoginRequiredMixin, DeleteView):
     model = File
 
     def get_success_url(self):
-        return reverse('admin-catalog-categories-files', kwargs={'pk': self.category.id})
+        if self.category:
+            return reverse('admin-catalog-categories-files', kwargs={'pk': self.category.id})
+        else:
+            return reverse('admin-catalog-userfiles')
 
     def delete(self, request, *args, **kwargs):
         file = self.get_object()
