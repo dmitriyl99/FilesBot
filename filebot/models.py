@@ -86,7 +86,7 @@ class File(models.Model):
         extension = self.get_file_extension()
         file_category = self.category.name if self.category else 'users'
         new_file_name = os.path.join(file_category, new_name + extension)
-        if file_storage.exists(os.path.join(self.category.name, new_name + extension)):
+        if file_storage.exists(os.path.join(file_category, new_name + extension)):
             return False
         old_file_name = self.file_name
         old_path = self.file_path
