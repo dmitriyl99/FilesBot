@@ -58,6 +58,7 @@ def user_file_handler(message: Message):
                                 file_path=file_storage.path(filename),
                                 file_url=file_storage.url(filename),
                                 is_user_file=True,
+                                confirmed=False,
                                 caption='@send_sound_bot',
                                 user=user)
             success_message = strings.get_string('user_files.success')
