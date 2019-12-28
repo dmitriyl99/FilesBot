@@ -42,7 +42,7 @@ class File(models.Model):
     hide_file_name = models.BooleanField(default=False)
     unprintable_file_name = models.BooleanField(default=False)
     show_full_name = models.BooleanField(default=False)
-    confirmed = models.BooleanField(default=False)
+    confirmed = models.BooleanField(default=True)
     caption = models.TextField(max_length=500, blank=True, null=True)
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
