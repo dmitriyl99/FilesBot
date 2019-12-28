@@ -16,10 +16,13 @@ class CreateFileView(LoginRequiredMixin, FormView):
     form_class = FileForm
 
     def get_success_url(self):
-        return reverse('admin-catalog-categories-files', kwargs={'pk': self.category.id})
+        if self.category:
+            return reverse('admin-catalog-categories-files', kwargs={'pk': self.category.id})
+        else:
+            return reverse('admin-catalog-userfiles')
 
     def form_valid(self, form):
-        category = form.cleaned_data['category']
+        category = form.cleaned_data['category'] if not form.cleaned_data['is_user_file'] else None
         self.category = category
         files = self.request.FILES.getlist('files')
         file_system = FileSystemStorage()
