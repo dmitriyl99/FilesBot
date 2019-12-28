@@ -28,5 +28,12 @@ def get_users_files() -> List[File]:
     return File.objects.filter(is_user_file=True, confirmed=True)
 
 
-def search_files(query: str):
-    return File.objects.filter(name__icontains=query, confirmed=True)
+def search_files(query: str) -> List[File]:
+    # TODO: Fix this part of code when migrate to other database. Case-insensitive doesn't work in SQLite
+    all_files = File.objects.filter(confirmed=True)
+    result = []
+    query = query.upper()
+    for file in all_files:
+        if query in file.name.upper():
+            result.append(file)
+    return result
