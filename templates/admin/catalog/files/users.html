@@ -18,6 +18,7 @@
                         <thead>
                             <tr>
                                 <th class="text-center">Название</th>
+                                <th class="text-center">Пользователь</th>
                                 <th class="text-center">Действия</th>
                             </tr>
                         </thead>
@@ -25,12 +26,17 @@
                             {% for file in files %}
                                 <tr>
                                     <td class="text-center">{{ file.file_name }}</td>
+                                    <td class="text-center">{{ file.user.first_name }}{% if file.user.last_name %}{{ file.user.last_name }}{% endif %}{% if file.user.username %} | {{ file.user.username }}{% endif %}</td>
                                     <td class="text-center d-flex justify-content-center align-items-center">
                                         <a href="{% url 'admin-catalog-files-edit' pk=file.id %}" class="btn btn-sm btn-alt-info mr-10" data-toggle="tooltip" title="Редактировать"><i class="si si-pencil"></i></a>
                                         <form action="{% url 'admin-catalog-files-remove' pk=file.id %}" method="post">
                                             {% csrf_token %}
                                             <button type="submit" class="btn btn-sm btn-alt-danger" onclick="return confirm('Вы уверены?')" data-toggle="tooltip" title="Удалить"><i class="si si-trash"></i></>
                                         </form>
+                                        {% if not file.confirmed %}
+                                            <a href="{% url 'admin-catalog-userfiles-confirm' pk=file.id %}"
+                                               class="btn btn-sm btn-alt-info" data-toggle="tooltip" title="Одобрить"><i class="si si-check"></i></a>
+                                        {% endif %}
                                     </td>
                                 </tr>
                             {% endfor %}
