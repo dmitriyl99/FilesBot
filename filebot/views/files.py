@@ -36,8 +36,9 @@ class CreateFileView(LoginRequiredMixin, FormView):
                                            category=None if form.cleaned_data['is_user_file'] else category)
             new_file.name = new_file.get_file_name()
             new_file.save()
+            message_category_name = 'От пользователей' if form.cleaned_data['is_user_file'] else category.name
             messages.success(self.request,
-                             "Файл %s добавлен в категорию %s" % (new_file.get_full_file_name(), category.name))
+                             "Файл %s добавлен в категорию %s" % (new_file.get_full_file_name(), message_category_name))
         result = super().form_valid(form)
         return result
 
