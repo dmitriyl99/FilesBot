@@ -94,7 +94,7 @@ class Helpers:
     def send_file(chat_id: int, file: File, user: BotUser, favorites=False):
         file_path = file.file_path
         if file.hide_file_name or file.unprintable_file_name:
-            template_file_name = 'Файл' if file.hide_file_name else 'Цензура'
+            template_file_name = 'SendSoundBot' if file.hide_file_name else 'Цензура'
             template_file_name += file.extension
             template_file_path = os.path.join(os.path.dirname(file.file_path), template_file_name)
             copyfile(file.file_path, template_file_path)
