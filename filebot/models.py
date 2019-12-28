@@ -46,6 +46,7 @@ class File(models.Model):
     caption = models.TextField(max_length=500, blank=True, null=True)
 
     category = models.ForeignKey(Category, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey('BotUser', on_delete=models.CASCADE, blank=True, null=True, default=None)
 
     def get_full_file_name(self):
         return os.path.basename(self.file_path)
