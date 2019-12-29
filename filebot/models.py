@@ -70,7 +70,8 @@ class File(models.Model):
         return self.get_file_extension()
 
     def remove_file(self):
-        os.remove(self.file_path)
+        if os.path.exists(self.file_path):
+            os.remove(self.file_path)
 
     def upload_file(self, file):
         self.remove_file()
