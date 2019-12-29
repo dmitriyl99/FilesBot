@@ -19,17 +19,9 @@ def index_handler(message: Message):
     telegram_bot.send_message(user_id, helper_text)
 
 
-@telegram_bot.message_handler(content_types=['audio', 'document'])
+@telegram_bot.message_handler(content_types=['audio'])
 def user_file_handler(message: Message):
-    if message.audio:
-        user_telegram_file = message.audio
-    elif message.document:
-        user_telegram_file = message.document
-    else:
-        return
-    if message.document and message.document.mime_type != 'audio/mpeg':
-        return
-    telegram_bot.send_audio(message.chat.id, user_telegram_file.file_id)
+    user_telegram_file = message.audio
     file_size_mb = user_telegram_file.file_size / 1024 ** 2
     if file_size_mb > 1:
         too_much_size_message = strings.get_string('user_files.too_much_size')
@@ -40,14 +32,7 @@ def user_file_handler(message: Message):
             telegram_bot.reply_to(message, wait_message)
             telegram_file_info = telegram_bot.get_file(user_telegram_file.file_id)
             telegram_file_path = telegram_file_info.file_path
-            if message.audio:
-                file_caption = user_telegram_file.title or user_telegram_file.performer
-                if not file_caption:
-                    file_caption = 'audio_' + secrets.token_hex(5)
-            elif message.document:
-                file_caption = user_telegram_file.file_name
-            else:
-                file_caption = 'audio_' + secrets.token_hex(5)
+            file_caption = 'audio_' + secrets.token_hex(5)
             telegram_file = requests.get(
                 'https://api.telegram.org/file/bot{0}/{1}'.format(API_TOKEN, telegram_file_path))
             file_storage = FileSystemStorage()
