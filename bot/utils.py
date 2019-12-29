@@ -1,5 +1,6 @@
 from . import telegram_bot
 from telebot.types import Message
+from telebot.apihelper import ApiException
 from core import users, files
 from resources import strings, keyboards
 from filebot.models import File, BotUser
@@ -131,7 +132,13 @@ class Helpers:
                     method = telegram_bot.send_audio
                 else:
                     method = telegram_bot.send_document
-                method(user.id, open(file_path, 'rb'), caption=text, parse_mode='HTML')
+                try:
+                    method(user.id, open(file_path, 'rb'), caption=text, parse_mode='HTML')
+                except ApiException:
+                    continue
             else:
-                telegram_bot.send_message(user.id, text, parse_mode='HTML')
+                try:
+                    telegram_bot.send_message(user.id, text, parse_mode='HTML')
+                except ApiException:
+                    continue
             sleep(0.1)
