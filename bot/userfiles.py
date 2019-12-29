@@ -9,6 +9,7 @@ import logging
 import requests
 import os
 from core import users
+import secrets
 
 
 @telegram_bot.message_handler(content_types=['text'], func=Access.upload)
@@ -18,29 +19,39 @@ def index_handler(message: Message):
     telegram_bot.send_message(user_id, helper_text)
 
 
-@telegram_bot.message_handler(content_types=['audio'])
+@telegram_bot.message_handler(content_types=['audio', 'document'])
 def user_file_handler(message: Message):
-    user_telegram_file = message.audio
+    if message.audio:
+        user_telegram_file = message.audio
+    elif message.document:
+        user_telegram_file = message.document
+    else:
+        return
+    if message.document and message.document.mime_type != 'audio/mpeg':
+        return
     file_size_mb = user_telegram_file.file_size / 1024**2
     if file_size_mb > 1:
         too_much_size_message = strings.get_string('user_files.too_much_size')
         telegram_bot.reply_to(message, too_much_size_message)
     else:
-        if not message.caption:
-            caption_empty_message = strings.get_string('user_files.caption_empty')
-            telegram_bot.reply_to(message, caption_empty_message)
-            return
         try:
             wait_message = strings.get_string('user_files.wait')
             telegram_bot.reply_to(message, wait_message)
             telegram_file_info = telegram_bot.get_file(user_telegram_file.file_id)
             telegram_file_path = telegram_file_info.file_path
-            file_caption = message.caption
+            if message.audio:
+                file_caption = user_telegram_file.title or user_telegram_file.performer
+            elif message.document:
+                file_caption = user_telegram_file.file_name
+            else:
+                file_caption = 'audio_' + secrets.token_hex(5)
             telegram_file = requests.get(
                 'https://api.telegram.org/file/bot{0}/{1}'.format(API_TOKEN, telegram_file_path))
             file_storage = FileSystemStorage()
             filename = 'users/' + file_caption
             extension = os.path.splitext(os.path.basename(telegram_file_path))[1]
+            if os.path.exists(os.path.join(file_storage.location, filename + extension)):
+                filename += secrets.token_hex(5)
             filename += extension
             filepath = os.path.join(file_storage.location, filename)
             open(filepath, 'wb').write(telegram_file.content)
