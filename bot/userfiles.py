@@ -22,7 +22,7 @@ def index_handler(message: Message):
 @telegram_bot.message_handler(content_types=['audio'])
 def user_file_handler(message: Message):
     user_telegram_file = message.audio
-    file_size_mb = user_telegram_file.file_size / 1024 ** 2
+    file_size_mb = user_telegram_file.file_size / 5120 ** 2
     if file_size_mb > 1:
         too_much_size_message = strings.get_string('user_files.too_much_size')
         telegram_bot.reply_to(message, too_much_size_message)
