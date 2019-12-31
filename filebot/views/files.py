@@ -102,7 +102,6 @@ class DeleteFileView(LoginRequiredMixin, DeleteView):
         file = self.get_object()
         file_name = file.file_name
         self.category = file.category
-        file.remove_file()
         result = super().delete(request, *args, **kwargs)
         messages.success(request, "Файл %s удалён" % file_name)
         return result

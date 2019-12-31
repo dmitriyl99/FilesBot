@@ -33,6 +33,13 @@ class Category(MPTTModel):
     def __str__(self):
         return self.name
 
+    def delete(self, *args, **kwargs):
+        import shutil
+        from django.conf import settings
+        directory_path = os.path.join(settings.MEDIA_ROOT, self.name)
+        shutil.rmtree(directory_path, ignore_errors=True)
+        return super().delete(args, kwargs)
+
 
 class File(models.Model):
     name = models.CharField(max_length=200, blank=True, null=True)
@@ -98,6 +105,10 @@ class File(models.Model):
         self.file_url = file_storage.url(new_file_name)
         self.save()
         return old_file_name
+
+    def delete(self, using=None, keep_parents=False):
+        self.remove_file()
+        return super().delete(using, keep_parents)
 
 
 class BotUser(models.Model):
