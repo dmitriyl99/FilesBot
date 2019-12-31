@@ -112,7 +112,7 @@ class BotUser(models.Model):
 
 
 class Settings(models.Model):
-    share_text = models.TextField(max_length=500, blank=True, null=True)
+    share_text = models.TextField(max_length=2000, blank=True, null=True)
     share_photo = models.ImageField(upload_to='share/', blank=True, null=True)
-    contacts_text = models.TextField(max_length=500, blank=True, null=True)
-    start_message_text = models.TextField(max_length=500, blank=True, null=True)
+    contacts_text = models.TextField(max_length=2000, blank=True, null=True)
+    start_message_text = models.TextField(max_length=2000, blank=True, null=True)
