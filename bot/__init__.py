@@ -1,6 +1,6 @@
 from telebot import TeleBot
-from FileTelegramBot import settings
 from django.conf import settings
+from .utils import Access, Navigation
 
 
 telegram_bot = TeleBot(settings.API_TOKEN)
@@ -11,3 +11,8 @@ if settings.DEBUG:
     logger.setLevel(logging.DEBUG)
 
 from . import start, contacts, share, catalog, favorites, userfiles, search
+
+
+@telegram_bot.message_handler(content_types=['text'], func=Access.empty)
+def empty_handler(message):
+    Navigation.to_main_menu(message.chat.id)

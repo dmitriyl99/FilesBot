@@ -57,6 +57,10 @@ class Access:
             return False
         return Access._private(m) and Access._auth(m) and strings.get_string('main_menu.search') in m.text
 
+    @staticmethod
+    def empty(m: Message):
+        return Access._private(m) and Access._auth(m)
+
 
 class Navigation:
     @staticmethod
