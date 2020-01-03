@@ -22,9 +22,5 @@ class BotUpdatesRecieverView(View):
         json_string = request.body.decode('utf-8')
         update = Update.de_json(json_string)
         from bot import telegram_bot
-        for entity in update.message.entities:
-            if entity.type == 'bot_command':
-                telegram_bot.clear_step_handler(update.message)
-                break
         telegram_bot.process_new_updates([update])
         return HttpResponse('')
