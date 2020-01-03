@@ -27,6 +27,9 @@ def search_handler(message: Message):
     if not message.text:
         error()
         return
+    if Helpers.check_for_start_command(message):
+        Navigation.to_main_menu(user_id)
+        return
     if strings.get_string('back') in message.text:
         Navigation.to_main_menu(user_id)
         return
@@ -50,6 +53,9 @@ def file_handler(message: Message):
 
     if not message.text:
         error()
+        return
+    if Helpers.check_for_start_command(message):
+        Navigation.to_main_menu(user_id)
         return
     if strings.get_string('back') in message.text:
         Navigation.to_search(user_id)

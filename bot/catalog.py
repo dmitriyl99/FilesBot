@@ -45,6 +45,9 @@ def category_handler(message: Message, *args, **kwargs):
     if not message.text:
         error()
         return
+    if Helpers.check_for_start_command(message):
+        Navigation.to_main_menu(user_id)
+        return
     if strings.get_string('back') in message.text:
         _go_back(user_id, current_category)
     else:
@@ -100,6 +103,9 @@ def file_handler(message: Message, *args, **kwargs):
 
     if not message.text:
         error()
+        return
+    if Helpers.check_for_start_command(message):
+        Navigation.to_main_menu(user_id)
         return
     if strings.get_string('back') in message.text:
         if 'from_users' in kwargs:

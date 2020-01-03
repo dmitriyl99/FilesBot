@@ -126,6 +126,10 @@ class Helpers:
                 os.remove(file_path)
 
     @staticmethod
+    def check_for_start_command(message: Message):
+        return '/start' in message.text
+
+    @staticmethod
     def distribute_advertising_post(text: str, file_path: str = None):
         all_users = users.get_all_users()
         for user in all_users:
