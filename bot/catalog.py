@@ -17,7 +17,8 @@ def _go_back(user_id, current_category, from_users=False):
         categories_keyboard = keyboards.from_categories_list_to_keyboard(current_category.parent.get_children())
         telegram_bot.send_message(user_id, catalog_message, reply_markup=categories_keyboard)
         telegram_bot.register_next_step_handler_by_chat_id(user_id, category_handler,
-                                                           current_category=current_category.parent)
+                                                           current_category=current_category.parent,
+                                                           keyboard=categories_keyboard)
         return
     else:
         Navigation.to_catalog(user_id)
@@ -34,10 +35,12 @@ def catalog_handler(message: Message):
 def category_handler(message: Message, *args, **kwargs):
     user_id = message.from_user.id
     current_category = kwargs.get('current_category')
+    keyboard = kwargs.get('keyboard')
 
     def error():
-        telegram_bot.send_message(user_id, strings.get_string('catalog.categories.select'))
-        telegram_bot.register_next_step_handler_by_chat_id(user_id, category_handler, current_category=current_category)
+        telegram_bot.send_message(user_id, strings.get_string('catalog.categories.select'), reply_markup=keyboard)
+        telegram_bot.register_next_step_handler_by_chat_id(user_id, category_handler, current_category=current_category,
+                                                           keyboard=keyboard)
 
     if not message.text:
         error()
@@ -50,13 +53,14 @@ def category_handler(message: Message, *args, **kwargs):
             if not user_files:
                 empty_message = strings.get_string('catalog.from_users.empty')
                 telegram_bot.send_message(user_id, empty_message)
-                telegram_bot.register_next_step_handler_by_chat_id(user_id, category_handler, current_category=None)
+                telegram_bot.register_next_step_handler_by_chat_id(user_id, category_handler, current_category=None,
+                                                                   keyboard=keyboard)
                 return
             select_message = strings.get_string('catalog.files.select')
             files_keyboard = keyboards.from_files_list_to_keyboard(user_files)
             telegram_bot.send_message(user_id, select_message, reply_markup=files_keyboard)
             telegram_bot.register_next_step_handler_by_chat_id(user_id, file_handler, current_category=None,
-                                                               from_users=True)
+                                                               from_users=True, keyboard=files_keyboard)
             return
         category = files.get_category_by_name(message.text, current_category)
         if not category:
@@ -69,25 +73,30 @@ def category_handler(message: Message, *args, **kwargs):
             select_message = strings.get_string('catalog.files.select')
             files_keyboard = keyboards.from_files_list_to_keyboard(category_files)
             telegram_bot.send_message(user_id, select_message, reply_markup=files_keyboard)
-            telegram_bot.register_next_step_handler_by_chat_id(user_id, file_handler, current_category=category)
+            telegram_bot.register_next_step_handler_by_chat_id(user_id, file_handler, current_category=category,
+                                                               keyboard=files_keyboard)
             return
         if category.get_children().count() > 0:
             categories = category.get_children()
             select_message = strings.get_string('catalog.categories.select')
             categories_keyboard = keyboards.from_categories_list_to_keyboard(categories)
             telegram_bot.send_message(user_id, select_message, reply_markup=categories_keyboard)
-        telegram_bot.register_next_step_handler_by_chat_id(user_id, category_handler, current_category=new_current_category)
+        telegram_bot.register_next_step_handler_by_chat_id(user_id, category_handler,
+                                                           current_category=new_current_category,
+                                                           keyboard=keyboard)
 
 
 def file_handler(message: Message, *args, **kwargs):
     user_id = message.from_user.id
     current_category = kwargs.get('current_category')
     user = users.get_user_by_telegram_id(user_id)
+    keyboard = kwargs.get('keyboard')
 
     def error():
-        telegram_bot.send_message(user_id, strings.get_string('catalog.files.select'))
+        telegram_bot.send_message(user_id, strings.get_string('catalog.files.select'), reply_markup=keyboard)
         telegram_bot.register_next_step_handler_by_chat_id(user_id, file_handler,
-                                                           current_category=current_category)
+                                                           current_category=current_category,
+                                                           keyboard=keyboard)
 
     if not message.text:
         error()
@@ -104,4 +113,4 @@ def file_handler(message: Message, *args, **kwargs):
             return
         Helpers.send_file(user_id, file, user)
         telegram_bot.register_next_step_handler_by_chat_id(user_id, file_handler,
-                                                           current_category=current_category)
+                                                           current_category=current_category, keyboard=keyboard)
