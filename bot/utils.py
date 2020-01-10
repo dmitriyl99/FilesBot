@@ -133,27 +133,32 @@ class Helpers:
     def distribute_advertising_post(text: str, file_path: str = None):
         all_users = users.get_all_users()
         file_id = None
+        file_method = None
+        text_method = None
+        if file_path:
+            extension = os.path.splitext(os.path.basename(file_path))[1]
+            if extension in ['.jpg', '.png']:
+                file_method = telegram_bot.send_photo
+            elif extension in ['.mp3']:
+                file_method = telegram_bot.send_audio
+            else:
+                file_method = telegram_bot.send_document
+        else:
+            text_method = telegram_bot.send_message
         for user in all_users:
-            if file_path:
-                extension = os.path.splitext(os.path.basename(file_path))[1]
-                if extension in ['.jpg', '.png']:
-                    method = telegram_bot.send_photo
-                elif extension in ['.mp3']:
-                    method = telegram_bot.send_audio
-                else:
-                    method = telegram_bot.send_document
+            if file_method:
                 try:
                     if file_id:
-                        method(user.id, file_id, caption=text, parse_mode='HTML')
+                        file_method(user.id, file_id, caption=text, parse_mode='HTML')
                     else:
-                        message = method(user.id, open(file_path, 'rb'), caption=text, parse_mode='HTML')
+                        message = file_method(user.id, open(file_path, 'rb'), caption=text, parse_mode='HTML')
                         file = message.document or message.audio or message.photo[-1]
                         file_id = file.file_id
                 except Exception:
                     continue
-            else:
+            elif text_method:
                 try:
-                    telegram_bot.send_message(user.id, text, parse_mode='HTML')
-                except ApiException:
+                    text_method(user.id, text, parse_mode='HTML')
+                except Exception:
                     continue
             sleep(0.1)
