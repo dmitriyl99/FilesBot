@@ -137,7 +137,7 @@ class Helpers:
         text_method = None
         if file_path:
             extension = os.path.splitext(os.path.basename(file_path))[1]
-            if extension in ['.jpg', '.png']:
+            if extension in ['.jpg', '.png', '.jpeg']:
                 file_method = telegram_bot.send_photo
             elif extension in ['.mp3']:
                 file_method = telegram_bot.send_audio
