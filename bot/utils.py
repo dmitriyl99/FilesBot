@@ -132,6 +132,7 @@ class Helpers:
     @staticmethod
     def distribute_advertising_post(text: str, file_path: str = None):
         all_users = users.get_all_users()
+        file_id = None
         for user in all_users:
             if file_path:
                 extension = os.path.splitext(os.path.basename(file_path))[1]
@@ -142,8 +143,13 @@ class Helpers:
                 else:
                     method = telegram_bot.send_document
                 try:
-                    method(user.id, open(file_path, 'rb'), caption=text, parse_mode='HTML')
-                except ApiException:
+                    if file_id:
+                        method(user.id, file_id, caption=text, parse_mode='HTML')
+                    else:
+                        message = method(user.id, open(file_path, 'rb'), caption=text, parse_mode='HTML')
+                        file = message.document or message.audio or message.photo[-1]
+                        file_id = file.file_id
+                except Exception:
                     continue
             else:
                 try:
