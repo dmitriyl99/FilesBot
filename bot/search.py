@@ -1,6 +1,7 @@
 from . import telegram_bot
 from .utils import Access, Navigation, Helpers
 from telebot.types import Message
+from telebot.apihelper import ApiException
 from resources import strings, keyboards
 from core import files, users
 
@@ -39,8 +40,12 @@ def search_handler(message: Message):
         return
     files_keyboard = keyboards.from_files_list_to_keyboard(found_files)
     select_message = strings.get_string('catalog.files.select')
-    telegram_bot.send_message(user_id, select_message, reply_markup=files_keyboard)
-    telegram_bot.register_next_step_handler_by_chat_id(user_id, file_handler)
+    try:
+        telegram_bot.send_message(user_id, select_message, reply_markup=files_keyboard)
+    except ApiException:
+        telegram_bot.send_message(user_id, strings.get_string('search.refine'))
+    finally:
+        telegram_bot.register_next_step_handler_by_chat_id(user_id, file_handler)
 
 
 def file_handler(message: Message):
