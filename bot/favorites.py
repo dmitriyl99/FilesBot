@@ -1,5 +1,7 @@
 from . import telegram_bot
 from telebot.types import CallbackQuery, Message
+from telebot import logger
+from telebot.apihelper import ApiException
 from core import users, files
 from resources import strings, keyboards
 from .utils import Access, Helpers, Navigation
@@ -35,7 +37,10 @@ def favorite_query_handler(query: CallbackQuery):
         success_message = strings.get_string('catalog.add_favorite.added')
         new_keyboard = keyboards.from_file_to_inline_keyboard_favorite(file, remove=True)
     telegram_bot.answer_callback_query(query.id, success_message)
-    telegram_bot.edit_message_reply_markup(user_id, query.message.message_id, query.inline_message_id, new_keyboard)
+    try:
+        telegram_bot.edit_message_reply_markup(user_id, query.message.message_id, query.inline_message_id, new_keyboard)
+    except ApiException as err:
+        logger.error(err)
 
 
 @telegram_bot.message_handler(content_types=['text'], func=Access.favorites)
