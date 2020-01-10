@@ -44,7 +44,8 @@ def search_handler(message: Message):
         telegram_bot.send_message(user_id, select_message, reply_markup=files_keyboard)
     except ApiException:
         telegram_bot.send_message(user_id, strings.get_string('search.refine'))
-    finally:
+        telegram_bot.register_next_step_handler_by_chat_id(user_id, search_handler)
+    else:
         telegram_bot.register_next_step_handler_by_chat_id(user_id, file_handler)
 
 
