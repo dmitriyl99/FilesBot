@@ -1,13 +1,15 @@
 from telebot import TeleBot
 from django.conf import settings
+import logging
+from telebot import logger
 
 
 telegram_bot = TeleBot(settings.API_TOKEN)
 
 if settings.DEBUG:
-    import logging
-    from telebot import logger
     logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
 
 from . import start, contacts, share, catalog, favorites, userfiles, search
 
