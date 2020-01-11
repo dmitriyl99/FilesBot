@@ -7,6 +7,7 @@ from filebot.models import File, BotUser
 from shutil import copyfile
 import os
 from time import sleep
+from threading import Thread
 
 
 class Access:
@@ -131,10 +132,23 @@ class Helpers:
 
     @staticmethod
     def distribute_advertising_post(text: str, file_path: str = None):
+        task = DistributeMessagesThread(file_path, text)
+        task.start()
+
+
+class DistributeMessagesThread(Thread):
+    def __init__(self, file_path: str, text: str):
+        Thread.__init__(self)
+        self.file_path = file_path
+        self.text = text
+
+    def run(self) -> None:
         all_users = users.get_all_users()
         file_id = None
         file_method = None
         text_method = None
+        file_path = self.file_path
+        text = self.text
         if file_path:
             extension = os.path.splitext(os.path.basename(file_path))[1]
             if extension in ['.jpg', '.png', '.jpeg']:
@@ -162,3 +176,5 @@ class Helpers:
                 except Exception:
                     continue
             sleep(0.1)
+        if file_path:
+            os.remove(file_path)

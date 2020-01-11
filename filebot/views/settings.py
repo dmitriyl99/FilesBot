@@ -42,8 +42,6 @@ class AdvertisingPostView(LoginRequiredMixin, FormView):
             filename = file_storage.save(os.path.join('advertising', file.name), file)
             file_path = file_storage.path(filename)
         Helpers.distribute_advertising_post(text, file_path)
-        if file:
-            file_storage.delete(filename)
         messages.success(self.request, "Рассылка прошла успешно!")
         result = super().form_valid(form)
         return result
