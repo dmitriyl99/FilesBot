@@ -1,6 +1,7 @@
 from . import telegram_bot
 from telebot.types import Message
 from telebot.apihelper import ApiException
+from telebot import logger
 from core import users, files
 from resources import strings, keyboards
 from filebot.models import File, BotUser
@@ -149,6 +150,7 @@ class DistributeMessagesThread(Thread):
         text_method = None
         file_path = self.file_path
         text = self.text
+        userCount = 0
         if file_path:
             extension = os.path.splitext(os.path.basename(file_path))[1]
             if extension in ['.jpg', '.png', '.jpeg']:
@@ -168,13 +170,16 @@ class DistributeMessagesThread(Thread):
                         message = file_method(user.id, open(file_path, 'rb'), caption=text, parse_mode='HTML')
                         file = message.document or message.audio or message.photo[-1]
                         file_id = file.file_id
+                    userCount += 1
                 except Exception:
                     continue
             elif text_method:
                 try:
                     text_method(user.id, text, parse_mode='HTML')
+                    userCount += 1
                 except Exception:
                     continue
             sleep(0.1)
         if file_path:
             os.remove(file_path)
+        logger.info("Message distributed. {0} users received the message.".format(userCount))
