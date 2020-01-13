@@ -3,9 +3,9 @@
     "main_menu.menu": "Главное меню",
     "main_menu.categories": "Посмотреть",
     "main_menu.favorites": "Избранное",
-    "main_menu.contacts": "Контакты",
+    "main_menu.contacts": "Поделиться",
     "main_menu.upload": "Добавить файл",
-    "main_menu.share": "Поделиться",
+    "main_menu.share": "Инструкция",
     "main_menu.search": "Поиск",
 
     "contacts.no_contacts": "Контакты ещё не указаны",
