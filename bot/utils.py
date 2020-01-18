@@ -124,7 +124,7 @@ class Helpers:
             telegram_bot.send_chat_action(chat_id, chat_action)
             method(chat_id, open(file_path, 'rb'), caption=file.caption,
                    reply_markup=file_keyboard, parse_mode='HTML')
-            if file.hide_file_name or file.unprintable_file_name:
+            if (file.hide_file_name or file.unprintable_file_name) and os.path.exists(file_path):
                 os.remove(file_path)
 
     @staticmethod
