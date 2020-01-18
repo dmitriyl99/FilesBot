@@ -20,5 +20,5 @@ class FileForm(forms.Form):
 
 
 class AdvertisingPostForm(forms.Form):
-    text = forms.CharField(max_length=500)
+    text = forms.CharField(max_length=5000)
     file = forms.FileField(required=False)
