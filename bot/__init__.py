@@ -9,7 +9,7 @@ telegram_bot = TeleBot(settings.API_TOKEN)
 if settings.DEBUG:
     logger.setLevel(logging.DEBUG)
 else:
-    logger.setLevel(logging.INFO)
+    logger.setLevel(logging.ERROR)
 
 from . import start, contacts, share, catalog, favorites, userfiles, search
 
